@@ -368,7 +368,7 @@ A: Yes. Built specifically for Azure DevOps. Seamless integration.
 
 ---
 
-**Prepared By**: [Project Manager]  
+**Prepared By**: Abnel Lluberes  
 **Product Contact**: [VP Product Name]  
 **Decision Target**: November 20, 2026  
 **Implementation Start**: November 22, 2026 (if approved)

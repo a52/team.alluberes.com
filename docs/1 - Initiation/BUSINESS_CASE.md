@@ -3,7 +3,7 @@
 
 **Document Version**: 2.0 (Updated with Team Scaling Model)  
 **Date**: November 15, 2026  
-**Prepared By**: [Project Manager]  
+**Prepared By**: Abnel Lluberes  
 **Status**: Preliminary Analysis (Pending Approval)
 
 ---

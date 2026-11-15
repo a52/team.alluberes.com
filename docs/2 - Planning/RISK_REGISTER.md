@@ -4,7 +4,7 @@
 **Document Version**: 1.0  
 **Date**: November 15, 2026  
 **Last Updated**: November 15, 2026  
-**Owner**: Project Manager
+**Owner**: Abnel Lluberes
 
 ---
 
@@ -125,7 +125,7 @@ Post-implementation review will:
 
 ---
 
-**Approved By**: _________________ Date: _________
+**Approved By**: Abnel Lluberes                     Date: ___________
 
 **Next Review Date**: _________________ 
 

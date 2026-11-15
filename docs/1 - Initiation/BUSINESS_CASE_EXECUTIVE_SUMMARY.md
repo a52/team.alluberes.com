@@ -5,7 +5,7 @@
 **Prepared For**: Executive Leadership, Finance, Product Team  
 **Date**: November 15, 2026  
 **Decision Required**: Budget approval for FY 2026-2027  
-**Prepared By**: [Project Manager]
+**Prepared By**: Abnel Lluberes
 
 ---
 
@@ -349,4 +349,4 @@ For deeper analysis, see:
 **Decision Target Date**: November 20, 2026  
 **Planned Kick-Off**: November 22, 2026 (if approved)
 
-**Questions?** Contact: [Project Manager Name] | [Email] | [Phone]
+**Questions?** Contact: Abnel Lluberes | [Email] | [Phone]

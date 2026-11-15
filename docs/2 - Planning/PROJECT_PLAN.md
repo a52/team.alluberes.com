@@ -3,7 +3,7 @@
 
 **Document Version**: 1.0  
 **Date**: November 15, 2026  
-**Project Manager**: [Your Name]  
+**Project Manager**: Abnel Lluberes  
 **Status**: Approved
 
 ---
@@ -190,7 +190,7 @@ This document consolidates all planning information for the Azure DevOps Content
 ```
 Change ID: [Auto-generated]
 Date Requested: [Date]
-Requested By: [Name]
+Requested By: Abnel Lluberes
 Category: Scope / Schedule / Resources / Other
 Current State: [Describe current implementation]
 Proposed Change: [Describe desired state]
@@ -202,7 +202,7 @@ Impact Analysis:
   - Risk Impact: [New risks or mitigation changes]
 Recommendation: [PM/Tech Lead recommendation]
 Approval: ☐ Approved  ☐ Approved with Conditions  ☐ Rejected
-Approved By: [Name] Date: [Date]
+Approved By: Abnel Lluberes Date: [Date]
 ```
 
 ### Change Threshold

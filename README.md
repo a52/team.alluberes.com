@@ -127,11 +127,11 @@ The agent will:
 
 | Role | Name | Contact | GitHub |
 |------|------|---------|--------|
-| Project Manager | [Your Name] | [Email] | [@username] |
-| Tech Lead | [Name] | [Email] | [@username] |
-| Developer | [Name] | [Email] | [@username] |
-| QA Lead | [Name] | [Email] | [@username] |
-| DevOps | [Name] | [Email] | [@username] |
+| Project Manager | Abnel Lluberes | abnel@alluberes.com | [@a52] |
+| Tech Lead | Abnel Lluberes | [Email] | [@username] |
+| Developer | Abnel Lluberes | [Email] | [@username] |
+| QA Lead | Abnel Lluberes | [Email] | [@username] |
+| DevOps | Abnel Lluberes | [Email] | [@username] |
 
 ---
 

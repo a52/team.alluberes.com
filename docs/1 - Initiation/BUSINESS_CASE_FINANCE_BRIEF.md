@@ -251,7 +251,7 @@ A: Benefits continue. Agent continues to operate. Low maintenance cost.
 
 ---
 
-**Prepared By**: [Project Manager]  
+**Prepared By**: Abnel Lluberes  
 **Finance Contact**: [CFO Name]  
 **Decision Target**: November 20, 2026  
 **Implementation Start**: November 22, 2026 (if approved)
