@@ -8,18 +8,21 @@
 
 ## 📋 Project Overview
 
-An automated, containerized agent that improves Azure DevOps work item documentation every 5 minutes by:
-- ✨ Formatting descriptions with markdown standards
-- 📝 Filling missing required fields (acceptance criteria, story points)
-- 🏷️ Standardizing labels and fixing grammar/spelling
-- 🔗 Creating intelligent links between related items
+An automated, containerized agent that reviews Azure DevOps work items every 5 minutes and proposes (or, when enabled, applies) improvements. v0.1 is suggest-only by default:
+- ✨ Formatting descriptions
+- 📝 Flagging missing required fields (acceptance criteria, story points)
+- 🏷️ Standardizing tags
 - 📊 Providing a local web dashboard for monitoring
 - 🎯 Enabling manual triggers for immediate processing
 - 📋 Maintaining a complete audit trail of all changes
 
+Planned for v0.2: grammar/spelling fixes, automatic linking of related items, Slack alerts.
+
 ---
 
 ## 🏗️ Project Structure
+
+Planned layout. Today only `docs/` exists; the other folders are created during implementation.
 
 ```
 project-root/
@@ -69,12 +72,14 @@ project-root/
 - **[Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md)** - Timeline, milestones, Gantt data
 - **[Risk Register](./docs/2%20-%20Planning/RISK_REGISTER.md)** - Risk identification & mitigation strategies
 - **[Project Plan](./docs/2%20-%20Planning/PROJECT_PLAN.md)** - Consolidated planning document
+- **[Archive](./docs/archive/README.md)** - Superseded documents (illustrative business case), not maintained
 
 ### Technical Documentation (In Progress)
-- **Architecture Design** (Coming Dec 5) - System design & component diagrams
-- **API Reference** (Coming Dec 20) - Dashboard API endpoints
-- **Setup Guide** (Coming Jan 1) - Installation & configuration
-- **Operations Manual** (Coming Jan 1) - Deployment & troubleshooting
+- **Requirements** (Due Nov 29, 2026) - Detailed v0.1 requirements
+- **Architecture Design** (Due Dec 6, 2026) - System design & component diagrams
+- **Setup Guide** (Due Feb 21, 2027) - Installation & configuration
+- **Operations Manual** (Due Feb 21, 2027) - Deployment & troubleshooting
+- **API Reference** (Due Feb 28, 2027) - Dashboard API endpoints
 
 ---
 
@@ -110,14 +115,17 @@ The agent will:
 
 ## 🏛️ Project Phases
 
-| Phase | Duration | Status | Deliverables |
-|-------|----------|--------|--------------|
-| **Initiation** | Week 1 (Nov 15-21) | 🟡 In Progress | Charter, Stakeholder alignment |
-| **Planning** | Weeks 2-3 (Nov 22-Dec 5) | 🟡 Planning | Schedule, Risks, Detailed plan |
-| **Design** | Week 2-3 (Nov 22-Dec 5) | 🟠 Upcoming | Architecture, Technical specs |
-| **Implementation** | Weeks 4-6 (Dec 6-20) | 🟠 Upcoming | Source code, Docker image |
-| **Testing** | Week 7 (Dec 21-27) | 🟠 Upcoming | Tests, QA report |
-| **Release** | Week 8 (Dec 28-Jan 3) | 🟠 Upcoming | Documentation, Deploy |
+Solo project at ~10 hours per week. See the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md) for task-level dates.
+
+| Phase | Dates | Effort | Status | Deliverables |
+|-------|-------|--------|--------|--------------|
+| **Initiation** | Nov 15, 2026 | – | 🟢 Complete | Approved charter |
+| **Planning** | Nov 16 – Nov 22, 2026 | 4 h | 🟡 In Progress | Schedule, risks, plan baseline |
+| **Design** | Nov 16 – Dec 6, 2026 | 24 h | 🟠 Upcoming | Requirements, architecture, API spike |
+| **Implementation** | Nov 30, 2026 – Jan 31, 2027 | 72 h | 🟠 Upcoming | Source code + unit tests, Docker image |
+| **Testing** | Feb 1 – Feb 14, 2027 | 20 h | 🟠 Upcoming | Integration & end-to-end tests |
+| **Release** | Feb 15 – Feb 28, 2027 | 16 h | 🟠 Upcoming | Documentation, v0.1.0 tag |
+| **Buffer** | Mar 1 – Mar 21, 2027 | 27 h | 🟠 Reserve | Target completion Mar 21, 2027 |
 
 **Status Legend**: 🟢 Complete | 🟡 In Progress | 🟠 Upcoming | 🔴 On Hold
 
@@ -125,19 +133,17 @@ The agent will:
 
 ## 👥 Team
 
+This is a solo project.
+
 | Role | Name | Contact | GitHub |
 |------|------|---------|--------|
-| Project Manager | Abnel Lluberes | abnel@alluberes.com | [@a52](https://github.com/a52) |
-| Tech Lead | [Name] | [Email] | [@username] |
-| Developer | [Name] | [Email] | [@username] |
-| QA Lead | [Name] | [Email] | [@username] |
-| DevOps | [Name] | [Email] | [@username] |
+| Owner & Project Manager (all roles) | Abnel Lluberes | abnel@alluberes.com | [@a52](https://github.com/a52) |
 
 ---
 
 ## 🤝 Contributing
 
-This project is currently in active development. See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+This project is in its planning phase. See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
 - Development setup
 - Code style guidelines
 - Pull request process
@@ -173,4 +179,4 @@ This project is licensed under the **Apache License 2.0** - see the [LICENSE](./
 ---
 
 **Last Updated**: November 15, 2026  
-**Next Milestone**: Planning Complete (Nov 28, 2026)
+**Next Milestone**: Planning Baseline Set (Nov 22, 2026)

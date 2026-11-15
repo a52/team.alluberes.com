@@ -6,16 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 🎯 Project Overview
 
-**Azure DevOps Content Polishing Agent** - A containerized Python agent that automatically improves Azure DevOps work item documentation every 5 minutes by:
-- Formatting descriptions with markdown standards
-- Filling missing required fields (acceptance criteria, story points)
-- Standardizing labels and fixing grammar/spelling
-- Creating intelligent links between related items
+**Azure DevOps Content Polishing Agent** - A containerized Python agent that reviews Azure DevOps work items every 5 minutes and proposes (suggest-only by default) or applies improvements. v0.1 MVP scope:
+- Formatting descriptions
+- Flagging missing required fields (acceptance criteria, story points) - never auto-filled
+- Standardizing tags
 - Providing a local Flask web dashboard for monitoring
 - Maintaining complete audit logs of all changes
 
-**Status**: Planning Phase (Dec 5, 2026 - Design phase starts)  
-**Target Completion**: January 3, 2027  
+Deferred to v0.2: grammar/spelling fixes, automatic linking, Slack alerts.
+
+**Status**: Planning Phase (Initiation complete Nov 15, 2026; planning baseline Nov 22, 2026)  
+**Team**: Solo project (Abnel Lluberes, all roles), ~10 hours/week  
+**Planned v0.1.0 Release**: February 28, 2027  
+**Target Completion (incl. buffer)**: March 21, 2027  
 **Tech Stack**: Python 3.11, Flask, APScheduler, azure-devops SDK, Docker
 
 ---
@@ -309,9 +312,8 @@ Fixes #123
 3. Push: `git push origin feature/my-feature`
 4. Open PR with clear title & description
 5. Ensure CI passes (tests, linting, coverage >80%)
-6. Request reviews (minimum 2 approvals required)
-7. Address feedback, re-request review
-8. Squash commits if many small ones, then merge
+6. Self-review the diff against the PR checklist in CONTRIBUTING.md (solo project: no second approver)
+7. Squash commits if many small ones, then merge
 
 ---
 
@@ -322,15 +324,15 @@ Fixes #123
 1. **README.md** - Project overview & quick start
 2. **docs/PMI_PHASES_GUIDE.md** - PMI phase structure & phase navigation
 3. **docs/1 - Initiation/PROJECT_CHARTER.md** - Business case & goals
-4. **docs/2 - Planning/PROJECT_PLAN.md** - 22 requirements, scope, risks
+4. **docs/2 - Planning/PROJECT_PLAN.md** - Scope, requirements, quality plan
 5. **docs/2 - Planning/PROJECT_SCHEDULE.md** - Timeline & critical path
 6. **CONTRIBUTING.md** - Detailed development guide
 
 ### Configuration Files
 
-- **.env.example** - Environment template (60+ documented variables)
-- **requirements.txt** - Production dependencies (12 packages)
-- **requirements-dev.txt** - Development dependencies (25 packages)
+- **.env.example** - Environment template (29 documented variables)
+- **requirements.txt** - Production dependencies (10 packages)
+- **requirements-dev.txt** - Development dependencies (24 packages)
 - **.gitignore** - Python, Docker, IDE ignores
 
 ### Source Structure
@@ -355,39 +357,44 @@ build/
 
 ## 🎯 Upcoming Milestones
 
-- **Dec 5, 2026**: Design phase starts (ARCHITECTURE.md, REQUIREMENTS.md)
-- **Dec 6, 2026**: Implementation phase (core agent code)
-- **Dec 18, 2026**: Feature complete (Docker image ready)
-- **Dec 27, 2026**: Testing phase complete
-- **Jan 3, 2027**: Production release
+- **Nov 22, 2026**: Planning baseline set
+- **Nov 29, 2026**: REQUIREMENTS.md complete
+- **Dec 6, 2026**: Design complete (ARCHITECTURE.md, API spike)
+- **Jan 31, 2027**: Feature complete (Docker image ready)
+- **Feb 14, 2027**: Testing complete
+- **Feb 28, 2027**: v0.1.0 release
+- **Mar 21, 2027**: Target completion (buffer exhausted)
 
-Current implementation status: Planning phase → Design phase next
+Current status: Planning phase; design runs in parallel from Nov 16
 
 ---
 
 ## 🚀 Quick Start for Implementation Phase
 
-When implementation begins (Dec 6):
+When implementation begins (Nov 30):
 
 1. **Create project structure**
    ```bash
    touch src/agent/__init__.py src/dashboard/__init__.py src/config/__init__.py
    ```
 
-2. **Start with Azure client module** (`src/agent/azure_client.py`)
+2. **Azure client module** (`src/agent/azure_client.py`)
    - Wrap azure-devops SDK
    - Handle authentication & retries
    - Cover with unit tests
 
-3. **Then work item processor** (`src/agent/work_item_processor.py`)
+3. **Filters and audit logger** (`src/agent/filters.py`, `src/agent/audit_logger.py`)
+   - Audit logging must exist before any code can change a work item
+
+4. **Then work item processor** (`src/agent/work_item_processor.py`)
    - Implement polishing rules (see FR-2 in PROJECT_PLAN.md)
    - Comprehensive test coverage
 
-4. **Dashboard next** (`src/dashboard/app.py`)
+5. **Dashboard next** (`src/dashboard/app.py`)
    - Simple Flask routes for API endpoints
    - Vanilla HTML/CSS for UI
 
-5. **Finally integration & Docker**
+6. **Finally integration & Docker**
    - docker-compose.yml for local dev
    - Dockerfile for containerization
 
@@ -415,5 +422,5 @@ When implementation begins (Dec 6):
 ---
 
 **Last Updated**: November 15, 2026  
-**Project Phase**: Planning → Design (Dec 5)  
+**Project Phase**: Planning (baseline Nov 22, 2026)  
 **Lead**: Abnel Lluberes (Project Manager & Owner)

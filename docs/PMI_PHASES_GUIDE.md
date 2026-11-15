@@ -47,7 +47,7 @@ docs/
 │   │   • Detailed timeline (all 5 phases)
 │   │   • Milestones & critical path
 │   │   • Resource allocation
-│   │   • Contingency buffer (9 days)
+│   │   • Contingency buffer (27 hours)
 │   │
 │   ├── RISK_REGISTER.md               
 │   │   • Risk identification (15 risks)
@@ -116,30 +116,25 @@ docs/
 
 ## 📅 Phase Overview
 
-### Phase 1: Initiation (Week 1)
-**Status**: ✅ Complete  
-**Duration**: 1 week  
-**Focus**: Authorization & buy-in
+### Phase 1: Initiation (Nov 15, 2026)
+**Status**: ✅ Complete (Charter approved Nov 15, 2026)  
+**Focus**: Authorization
 
 **Documents in `1 - Initiation/`:**
 - ✅ PROJECT_CHARTER.md
 
 **Key Activities**:
-- [ ] Get charter approved by sponsor
-- [ ] Confirm stakeholder alignment
-- [ ] Obtain formal authorization
-- [ ] Schedule team kickoff
+- [x] Get charter approved (solo: owner is sponsor)
+- [x] Obtain formal authorization
 
 **Success Criteria**:
 - Charter signed & approved
-- All stakeholders understand project scope
-- Team assembled & ready
 
 ---
 
-### Phase 2: Planning (Weeks 2-3)
-**Status**: ✅ Complete (but subject to refinement)  
-**Duration**: 2-3 weeks  
+### Phase 2: Planning (Nov 16 – Nov 22, 2026)
+**Status**: 🟡 In Progress (documents drafted; baseline Nov 22, 2026)  
+**Effort**: 4 hours  
 **Focus**: Schedule, risks, resource allocation
 
 **Documents in `2 - Planning/`:**
@@ -148,49 +143,46 @@ docs/
 - ✅ PROJECT_PLAN.md
 
 **Key Activities**:
-- [ ] Validate schedule with team
+- [ ] Apply safety decisions to requirements
 - [ ] Review & approve all planning documents
-- [ ] Establish baselines (schedule, scope, budget)
-- [ ] Set up project tracking systems
-- [ ] Plan design phase in detail
+- [ ] Establish baselines (schedule, scope, effort)
+- [ ] Start weekly hours tracking
 
 **Success Criteria**:
 - All planning documents reviewed & approved
-- Team understands timeline & risks
 - Contingency plans in place
 - Design phase ready to start
 
 ---
 
-### Phase 3: Design (Weeks 2-3, overlaps with planning)
-**Status**: 📝 Upcoming (Dec 5)  
-**Duration**: 2 weeks  
+### Phase 3: Design (Nov 16 – Dec 6, 2026, overlaps with planning)
+**Status**: 📝 Upcoming  
+**Effort**: 24 hours  
 **Focus**: Architecture & detailed requirements
 
 **Documents to create in `3 - Design/`:**
-- ARCHITECTURE.md (System design, components, data flow)
-- REQUIREMENTS.md (Detailed functional specs, use cases)
+- ARCHITECTURE.md (System design, components, data flow) – due Dec 6, 2026
+- REQUIREMENTS.md (Detailed functional specs, use cases) – due Nov 29, 2026
 - TECHNICAL_SPECIFICATIONS.md (APIs, database, security)
 
 **Key Activities**:
 - [ ] Create system architecture
 - [ ] Define detailed requirements
 - [ ] Create design documentation
-- [ ] Technical review & approval
-- [ ] Kick off development
+- [ ] API spike against a test Azure DevOps project
+- [ ] Self-review & approval
 
 **Success Criteria**:
-- Architecture approved by tech lead
+- Architecture approved
 - Requirements clear & unambiguous
-- Team understands implementation approach
 - Ready to start coding
 
 ---
 
-### Phase 4: Implementation (Weeks 4-6)
-**Status**: 📝 Upcoming (Dec 6-20)  
-**Duration**: 3 weeks  
-**Focus**: Development, testing, deployment
+### Phase 4: Implementation & Testing (Nov 30, 2026 – Feb 14, 2027)
+**Status**: 📝 Upcoming  
+**Effort**: 72 hours implementation + 20 hours testing  
+**Focus**: Development, testing
 
 **Documents to create in `4 - Implementation/`:**
 - DEPLOYMENT_GUIDE.md (Setup & configuration)
@@ -200,8 +192,8 @@ docs/
 **Key Activities**:
 - [ ] Develop source code (src/ folder)
 - [ ] Create Docker container (build/ folder)
-- [ ] Unit & integration testing
-- [ ] Code reviews & quality checks
+- [ ] Unit tests with each module; integration & end-to-end tests (Feb 1 – Feb 14)
+- [ ] Self-review & CI quality checks
 - [ ] Performance testing
 
 **Success Criteria**:
@@ -212,10 +204,10 @@ docs/
 
 ---
 
-### Phase 5: Monitoring & Controlling (Weeks 7-8)
-**Status**: 📝 Upcoming (Dec 21 - Jan 3)  
-**Duration**: 2-3 weeks  
-**Focus**: Testing, monitoring, closure
+### Phase 5: Release, Monitoring & Closure (Feb 15 – Mar 21, 2027)
+**Status**: 📝 Upcoming  
+**Effort**: 16 hours + 27 hours buffer  
+**Focus**: Documentation, release, monitoring, closure
 
 **Documents to create in `5 - Monitoring & Controlling/`:**
 - PERFORMANCE_METRICS.md (KPIs & health checks)
@@ -223,7 +215,7 @@ docs/
 - LESSONS_LEARNED.md (Post-project review)
 
 **Key Activities**:
-- [ ] Final QA & user acceptance testing
+- [ ] v0.1.0 release (Feb 28, 2027)
 - [ ] Production deployment
 - [ ] Monitor initial performance
 - [ ] Document lessons learned
@@ -254,13 +246,13 @@ docs/
 → See `docs/2 - Planning/PROJECT_PLAN.md` (when complete, see `docs/3 - Design/REQUIREMENTS.md`)
 
 **Understand the architecture**
-→ See `docs/3 - Design/ARCHITECTURE.md` (coming Dec 5)
+→ See `docs/3 - Design/ARCHITECTURE.md` (due Dec 6, 2026)
 
 **Set up development environment**
 → See `CONTRIBUTING.md` and `.env.example`
 
 **Deploy or operate the agent**
-→ See `docs/4 - Implementation/DEPLOYMENT_GUIDE.md` and `OPERATIONS_MANUAL.md` (coming Jan 1)
+→ See `docs/4 - Implementation/DEPLOYMENT_GUIDE.md` and `OPERATIONS_MANUAL.md` (due Feb 21, 2027)
 
 **Check project status**
 → See `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (coming weekly)
@@ -276,11 +268,7 @@ Each phase's documents follow this approval process:
 ```
 Document Created (Draft)
          ↓
-Technical Review (Tech Lead)
-         ↓
-Management Review (PM)
-         ↓
-Stakeholder Review (Sponsor)
+Self-Review (owner, against checklist)
          ↓
 Approved ✅ / Rejected ❌
          ↓
@@ -310,15 +298,15 @@ All documents include:
 Each phase must complete before moving to the next:
 
 ```
-Phase 1 ✅ COMPLETE
+Phase 1 ✅ COMPLETE (Nov 15, 2026)
     ↓ Gate Review
-Phase 2 ✅ COMPLETE
+Phase 2 🟡 IN PROGRESS (baseline Nov 22, 2026)
     ↓ Gate Review
-Phase 3 📝 START (Dec 5)
+Phase 3 📝 DESIGN COMPLETE BY Dec 6, 2026
     ↓ Gate Review
-Phase 4 📝 START (Dec 6)
+Phase 4 📝 FEATURE COMPLETE Jan 31, 2027; TESTING COMPLETE Feb 14, 2027
     ↓ Gate Review
-Phase 5 📝 START (Dec 21)
+Phase 5 📝 RELEASE Feb 28, 2027; TARGET COMPLETION Mar 21, 2027
     ↓ Gate Review
 PROJECT CLOSURE ✅
 ```
@@ -327,9 +315,8 @@ PROJECT CLOSURE ✅
 - All documents complete?
 - All deliverables completed?
 - Risks mitigated?
-- Team ready?
-- Budget on track?
-- Sponsor approval obtained?
+- Hours on track vs. plan?
+- Owner approval recorded?
 
 ---
 
@@ -338,7 +325,7 @@ PROJECT CLOSURE ✅
 ### Initiation Phase (Complete ✅)
 - [x] PROJECT_CHARTER.md - Business case & authorization
 
-### Planning Phase (Complete ✅)
+### Planning Phase (In Progress 🟡 – drafts done, baseline pending)
 - [x] PROJECT_SCHEDULE.md - Timeline & milestones
 - [x] RISK_REGISTER.md - Risk identification
 - [x] PROJECT_PLAN.md - Consolidated plan
@@ -377,4 +364,4 @@ This project follows PMI standards for:
 
 **Last Updated**: November 15, 2026  
 **Version**: 1.0  
-**Status**: Approved for Planning Phase
+**Status**: Updated for solo MVP plan (Nov 15, 2026)

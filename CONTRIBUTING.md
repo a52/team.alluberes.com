@@ -206,10 +206,9 @@ performance when processing >1000 items.
    - Checklist: Tests, docs, formatting
    - Link any related issues
 
-5. **Code Review**
-   - Minimum 2 approvals required
-   - Address review comments
-   - Re-request review after changes
+5. **Review**
+   - Solo project: self-review the full diff against the checklist below
+   - CI must pass before merging
 
 6. **Merge**
    - Squash commits if many small ones
@@ -346,7 +345,6 @@ docker-compose up
 
 Your contributions make this project better. We appreciate your effort and time!
 
-**Review Time**: Typically 24-48 hours  
-**Release Cadence**: Weekly on Mondays (if applicable)
+**Release Cadence**: v0.1.0 planned for February 28, 2027
 
 Happy coding! 🎉
