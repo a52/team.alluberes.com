@@ -17,8 +17,8 @@ Thank you for contributing to this project! This guide explains how to set up yo
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/team.alluberes/azdo-polisher.git
-   cd azdo-polisher
+   git clone https://github.com/a52/team.alluberes.com.git
+   cd team.alluberes.com
    ```
 
 2. **Create a virtual environment**
@@ -324,13 +324,13 @@ python -m src.agent.main
 
 ```bash
 # Build Docker image locally
-docker build -f build/docker/Dockerfile -t azdo-polisher:latest .
+docker build -f build/docker/Dockerfile -t content-polisher:latest .
 
 # Run container
 docker run -e AZURE_DEVOPS_ORG=your_org \
            -e AZURE_DEVOPS_PAT=your_pat \
            -p 5000:5000 \
-           azdo-polisher:latest
+           content-polisher:latest
 
 # Or use docker-compose
 docker-compose up

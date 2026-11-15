@@ -178,13 +178,13 @@ black src/ && pylint src/ && mypy src/ && pytest --cov=src
 
 ```bash
 # Build Docker image locally
-docker build -f build/docker/Dockerfile -t azdo-polisher:latest .
+docker build -f build/docker/Dockerfile -t content-polisher:latest .
 
 # Run Docker image locally
 docker run -e AZURE_DEVOPS_ORG=https://dev.azure.com/myorg \
            -e AZURE_DEVOPS_PAT=mytoken \
            -p 5000:5000 \
-           azdo-polisher:latest
+           content-polisher:latest
 
 # Use docker-compose (simpler)
 docker-compose up              # Run locally
