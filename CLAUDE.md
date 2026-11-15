@@ -329,7 +329,7 @@ Fixes #123
 ### Configuration Files
 
 - **.env.example** - Environment template (60+ documented variables)
-- **requirements.txt** - Production dependencies (15 packages)
+- **requirements.txt** - Production dependencies (12 packages)
 - **requirements-dev.txt** - Development dependencies (25 packages)
 - **.gitignore** - Python, Docker, IDE ignores
 

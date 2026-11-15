@@ -36,8 +36,7 @@ Thank you for contributing to this project! This guide explains how to set up yo
 4. **Set up environment variables**
    ```bash
    cp .env.example .env
-   # Edit .env with your Azure DevOps credentials
-   export $(cat .env | xargs)
+   # Edit .env with your Azure DevOps credentials (loaded automatically via python-dotenv)
    ```
 
 5. **Verify setup**
@@ -61,9 +60,6 @@ black src/
 
 # Check style with pylint
 pylint src/
-
-# Auto-fix with autopep8
-autopep8 --in-place --aggressive src/**/*.py
 ```
 
 ### Naming Conventions

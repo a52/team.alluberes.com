@@ -124,7 +124,7 @@ Total Duration: ~35-40 calendar days
 
 ---
 
-**Approved By**: Abnel Lluberes                     Date: ___________
+**Approved By**: _________________ Date: _________
 
 **Notes**:
 - All dates are calendar dates

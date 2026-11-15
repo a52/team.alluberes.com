@@ -70,17 +70,17 @@ A self-contained Docker agent that runs every 5 minutes to:
 **Target Completion**: December 20, 2026
 
 ## 9. Authorized By
-- **Project Sponsor**: Abnel Lluberes                     Date: ___________
+- **Project Sponsor**: _________________ Date: _________
 - **Project Manager**: Abnel Lluberes                     Date: ___________
-- **Technical Lead**: Abnel Lluberes                     Date: ___________
+- **Technical Lead**: _________________ Date: _________
 
 ## 10. Key Stakeholders
 | Role | Name | Contact | Interest |
 |------|------|---------|----------|
-| Project Sponsor | Abnel Lluberes | [Email] | Business value, timeline |
-| DevOps Lead | Abnel Lluberes | [Email] | Deployment, operations |
-| Development Lead | Abnel Lluberes | [Email] | Technical delivery |
-| Product Owner | Abnel Lluberes | [Email] | Feature completeness |
+| Project Sponsor | [Name] | [Email] | Business value, timeline |
+| DevOps Lead | [Name] | [Email] | Deployment, operations |
+| Development Lead | [Name] | [Email] | Technical delivery |
+| Product Owner | [Name] | [Email] | Feature completeness |
 
 ---
 

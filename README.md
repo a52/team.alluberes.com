@@ -127,11 +127,11 @@ The agent will:
 
 | Role | Name | Contact | GitHub |
 |------|------|---------|--------|
-| Project Manager | Abnel Lluberes | abnel@alluberes.com | [@a52] |
-| Tech Lead | Abnel Lluberes | [Email] | [@username] |
-| Developer | Abnel Lluberes | [Email] | [@username] |
-| QA Lead | Abnel Lluberes | [Email] | [@username] |
-| DevOps | Abnel Lluberes | [Email] | [@username] |
+| Project Manager | Abnel Lluberes | abnel@alluberes.com | [@a52](https://github.com/a52) |
+| Tech Lead | [Name] | [Email] | [@username] |
+| Developer | [Name] | [Email] | [@username] |
+| QA Lead | [Name] | [Email] | [@username] |
+| DevOps | [Name] | [Email] | [@username] |
 
 ---
 
@@ -158,7 +158,7 @@ This project is currently in active development. See [CONTRIBUTING.md](./CONTRIB
 
 This project is licensed under the **Apache License 2.0** - see the [LICENSE](./LICENSE) file for details.
 
-**Summary**: Free for personal and commercial use with patent protection. Enterprises using this code grant you patent rights back.
+**Summary**: Free for personal and commercial use, modification, and distribution. Contributors grant users a license to any of their patents that cover their contributions, and anyone who sues claiming the project infringes a patent loses that license.
 
 ---
 

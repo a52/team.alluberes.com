@@ -9,7 +9,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -51,7 +50,6 @@ venv.bak/
 
 # Docker
 docker-compose.override.yml
-.dockerignore
 
 # Logs
 logs/
@@ -67,7 +65,7 @@ Thumbs.db
 *.tmp
 
 # Project-specific
-.env.example  # Don't ignore the template itself
+!.env.example
 audit_logs/
 *.db
 *.sqlite
@@ -80,9 +78,11 @@ coverage.xml
 
 # Build artifacts
 dist/
-build/
 *.whl
 
 # IDE specific
 .vscode/settings.json
 .idea/workspace.xml
+
+# Claude Code local settings
+.claude/settings.local.json

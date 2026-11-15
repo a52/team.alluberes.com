@@ -125,7 +125,7 @@ Post-implementation review will:
 
 ---
 
-**Approved By**: Abnel Lluberes                     Date: ___________
+**Approved By**: _________________ Date: _________
 
 **Next Review Date**: _________________ 
 
