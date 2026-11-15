@@ -88,8 +88,8 @@ project-root/
 ### Installation (Coming Soon)
 ```bash
 # Clone the repository
-git clone https://github.com/team.alluberes/azdo-polisher.git
-cd azdo-polisher
+git clone https://github.com/a52/team.alluberes.com.git
+cd team.alluberes.com
 
 # Set up environment variables
 cp .env.example .env
@@ -149,8 +149,8 @@ This project is currently in active development. See [CONTRIBUTING.md](./CONTRIB
 ## 📞 Support
 
 - **Questions?** Open an issue in GitHub
-- **Bug Report?** [Report here](https://github.com/team.alluberes/azdo-polisher/issues)
-- **Documentation?** See `/docs` folder or [wiki](https://github.com/team.alluberes/azdo-polisher/wiki)
+- **Bug Report?** [Report here](https://github.com/a52/team.alluberes.com/issues)
+- **Documentation?** See `/docs` folder or [wiki](https://github.com/a52/team.alluberes.com/wiki)
 
 ---
 
