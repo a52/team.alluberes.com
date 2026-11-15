@@ -1,0 +1,74 @@
+# Azure DevOps Content Polishing Agent
+# Python 3.11+
+
+# Core Dependencies
+
+# Azure DevOps SDK for Python API integration
+azure-devops==7.1.0
+
+# Scheduler for running tasks on intervals
+APScheduler==3.10.4
+
+# Web framework for dashboard
+Flask==3.0.0
+Flask-Cors==4.0.0
+
+# Environment variable management
+python-dotenv==1.0.0
+
+# HTTP requests library
+requests==2.31.0
+
+# JSON schema validation
+jsonschema==4.20.0
+
+# Logging & observability
+python-json-logger==2.0.7
+
+# Text processing & NLP (for grammar/standardization)
+textblob==0.17.1
+nltk==3.8.1
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Development Dependencies (for development only)
+# Install with: pip install -r requirements-dev.txt
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-asyncio==0.21.1
+
+# Code quality
+black==23.12.0
+pylint==3.0.3
+flake8==6.1.0
+isort==5.13.2
+
+# Type checking
+mypy==1.7.1
+types-requests==2.31.0.10
+
+# Development utilities
+ipython==8.18.1
+ipdb==0.13.13
+watchdog==3.0.0
+
+# Notes:
+# - azure-devops: Official SDK for Azure DevOps integration
+# - APScheduler: In-process task scheduling (no external dependencies)
+# - Flask: Lightweight web framework for dashboard
+# - python-dotenv: Load environment configuration from .env files
+# - textblob & nltk: For grammar checking and text analysis
+# - pytest: Testing framework with comprehensive plugins
+# - black & pylint: Code formatting and linting
+
+# Installation:
+# pip install -r requirements.txt              # Production dependencies
+# pip install -r requirements-dev.txt          # Add development tools
+
+# Generating requirements for specific environment:
+# pip freeze > requirements.txt                 # Capture exact versions
