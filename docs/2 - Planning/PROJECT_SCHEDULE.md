@@ -21,7 +21,7 @@ Durations are effort hours, not calendar days. Dates are the week a task starts 
 ### Phase 2: Planning (Nov 16 – Nov 22, 2026)
 | Task | Effort | Start | End |
 |------|--------|-------|-----|
-| Apply safety decisions to requirements | 2 h | Nov 16 | Nov 22 |
+| Apply safety decisions to requirements | 2 h | Nov 16 | ✅ Nov 15 |
 | Self-review & baseline planning docs | 2 h | Nov 16 | Nov 22 |
 | **Phase Total** | **4 h** | | |
 
@@ -30,7 +30,7 @@ Durations are effort hours, not calendar days. Dates are the week a task starts 
 |------|--------|-------|-----|--------------|
 | REQUIREMENTS.md (v0.1 spec, Azure DevOps field mapping per process template) | 10 h | Nov 16 | Nov 29 | Planning |
 | ARCHITECTURE.md (components, data flow, concurrency & loop prevention) | 10 h | Nov 23 | Dec 6 | Requirements |
-| API spike against a test Azure DevOps project | 4 h | Nov 30 | Dec 6 | Requirements |
+| API spike against a test Azure DevOps project (rev `test` op, comments API, field names for Agile/Scrum/Basic) | 4 h | Nov 30 | Dec 6 | Requirements |
 | **Phase Total** | **24 h** | | | |
 
 ### Phase 4: Implementation (Nov 30, 2026 – Jan 31, 2027)

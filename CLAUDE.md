@@ -330,7 +330,7 @@ Fixes #123
 
 ### Configuration Files
 
-- **.env.example** - Environment template (29 documented variables)
+- **.env.example** - Environment template (31 documented variables)
 - **requirements.txt** - Production dependencies (10 packages)
 - **requirements-dev.txt** - Development dependencies (24 packages)
 - **.gitignore** - Python, Docker, IDE ignores
@@ -406,7 +406,8 @@ When implementation begins (Nov 30):
 - **Configuration via .env**: All Azure credentials come from environment
 - **No print() statements**: Use logging module instead
 - **Performance targets**: Dashboard <500ms, processing cycle <5 min
-- **Audit logging**: Every change must be logged before/after
+- **Audit logging**: Every change must be logged before/after, and the audit entry is written before the change is applied
+- **Safe writes**: `DRY_RUN=true` by default; every update includes a JSON Patch `test` op on `/rev`; skip items whose latest revision was written by the agent (tracked in `STATE_DIR`); never auto-fill estimates or acceptance criteria; change tags only via `TAG_ALIASES`; keep description fields as HTML
 - **Error handling**: Implement exponential backoff for Azure API calls
 
 ---

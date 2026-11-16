@@ -85,16 +85,26 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due 
 
 **FR-2: Content Polishing (v0.1)**
 - Suggest-only by default; apply mode is opt-in
-- Format descriptions
-- Flag missing required fields (acceptance criteria, story points)
-- Standardize tags to lowercase-hyphenated format
+- Format descriptions: description fields are HTML and stay HTML (normalize structure and whitespace; never convert to markdown; never rewrite the author's wording)
+- Flag missing required fields (acceptance criteria, estimate); never auto-fill them
+- Standardize tags only through a configured alias map (e.g. `Front End`, `frontend` → `front-end`); tags not in the map are reported on the dashboard but never changed, so existing queries and boards keep working
 - *(v0.2)* Fix grammar/spelling issues
 - *(v0.2)* Detect and create links between related items
+
+**FR-2a: Process Template Support**
+- Support the Agile, Scrum and Basic process templates
+- Read each work item type's available fields from the Azure DevOps API instead of hardcoding them; skip a rule when its field does not exist for that type
+- Map the estimate field per template (Agile: Story Points; Scrum: Effort; Basic: verified during the design API spike) and the description field per type (e.g. Bugs use Repro Steps)
+
+**FR-2b: Suggestion Delivery**
+- Show every proposed change on the dashboard with before/after values
+- Also post the suggestion as a work item comment (configurable, on by default)
+- Post a given suggestion only once: store a hash of the suggestion per work item locally and post again only if the suggestion changes
 
 **FR-3: Monitoring Dashboard**
 - Display last run execution time, count of items processed, success/failure rate
 - Show list of recently processed items with proposed or applied changes
-- Manual trigger button, protected against cross-site requests
+- Manual trigger button, protected by a CSRF token so other websites cannot trigger a run
 - Localhost-only (no external access)
 
 **FR-4: Audit Logging**
@@ -104,8 +114,14 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due 
 
 **FR-5: Error Handling**
 - Graceful handling of Azure DevOps API failures
-- Retry logic with exponential backoff
+- Retry logic with exponential backoff, honoring `Retry-After` headers
 - Log and surface persistent failures on the dashboard
+
+**FR-6: Safe Writes**
+- Write the audit entry before applying any change
+- Every update includes a JSON Patch `test` operation on the work item revision (`/rev`); if someone changed the item since it was read, the update is rejected, nothing is overwritten, and the item is re-evaluated on the next run
+- Loop prevention: store locally the revision produced by each agent write or comment, and skip an item while that is still its latest revision (the agent runs with the owner's PAT, so its edits cannot be told apart by `ChangedBy`)
+- Fetch only items changed since the last successful run (`System.ChangedDate` watermark stored locally)
 
 ### Non-Functional Requirements (NFR)
 

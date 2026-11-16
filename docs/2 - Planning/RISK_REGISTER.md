@@ -43,6 +43,8 @@
 |----|------------------|-------------|--------|----------|-------|-----------|------------|
 | R013 | Third-party library updates break compatibility | Low | Medium | Low | Abnel Lluberes | Pin dependency versions in requirements.txt; monitor for security issues | Quick downgrade; use fork if necessary |
 | R014 | GitHub Actions CI/CD pipeline configuration issues | Low | Medium | Low | Abnel Lluberes | Simple initial setup; iterate on CI/CD post-launch | Manual deployment process; deploy from local |
+| R016 | Suggestion comments create notification noise or revision churn for the team | Medium | Medium | Low | Abnel Lluberes | Post each suggestion once (hash tracked locally); comments can be turned off with POST_SUGGESTION_COMMENTS | Turn comments off; keep dashboard-only suggestions |
+| R017 | Field names differ between Agile, Scrum and Basic templates; rules target the wrong field | Medium | Medium | Low | Abnel Lluberes | Read available fields per work item type from the API; verify mappings in the design API spike | Skip the rule for that type and report it on the dashboard |
 | R015 | Work items deleted in Azure DevOps during agent processing | Low | Medium | Low | Abnel Lluberes | Implement graceful error handling; log events; alert on failures | Audit trail shows what would have been changed |
 
 ---

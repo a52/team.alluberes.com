@@ -50,7 +50,7 @@ docs/
 │   │   • Contingency buffer (27 hours)
 │   │
 │   ├── RISK_REGISTER.md               
-│   │   • Risk identification (15 risks)
+│   │   • Risk identification (17 risks)
 │   │   • Probability/Impact matrix
 │   │   • Mitigation strategies
 │   │   • Contingency plans
@@ -143,7 +143,7 @@ docs/
 - ✅ PROJECT_PLAN.md
 
 **Key Activities**:
-- [ ] Apply safety decisions to requirements
+- [x] Apply safety decisions to requirements
 - [ ] Review & approve all planning documents
 - [ ] Establish baselines (schedule, scope, effort)
 - [ ] Start weekly hours tracking
