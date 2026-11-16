@@ -340,13 +340,14 @@ Fixes #123
 1. **README.md** - Project overview & quick start
 2. **docs/PMI_PHASES_GUIDE.md** - PMI phase structure & phase navigation
 3. **docs/1 - Initiation/PROJECT_CHARTER.md** - Business case & goals
+   - **docs/3 - Design/REQUIREMENTS.md** - Testable v0.1 requirements with IDs (RUN, SEL, FMT, ...); cite these IDs in tests and commits
 4. **docs/2 - Planning/PROJECT_PLAN.md** - Scope, requirements, quality plan
 5. **docs/2 - Planning/PROJECT_SCHEDULE.md** - Timeline & critical path
 6. **CONTRIBUTING.md** - Detailed development guide
 
 ### Configuration Files
 
-- **.env.example** - Environment template (27 documented variables)
+- **.env.example** - Environment template (29 documented variables)
 - **requirements.txt** - Production dependencies (7 packages)
 - **requirements-dev.txt** - Development dependencies (15 packages)
 - **.gitignore** - Python, Docker, IDE ignores

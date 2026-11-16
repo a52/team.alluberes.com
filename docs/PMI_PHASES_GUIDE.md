@@ -332,7 +332,7 @@ PROJECT CLOSURE ✅
 
 ### Design Phase (Pending 📝)
 - [ ] ARCHITECTURE.md - System design
-- [ ] REQUIREMENTS.md - Detailed specs
+- [ ] REQUIREMENTS.md - Detailed specs (draft written, review pending)
 - [ ] TECHNICAL_SPECIFICATIONS.md - API & database
 
 ### Implementation Phase (Pending 📝)

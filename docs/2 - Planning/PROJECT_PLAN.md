@@ -40,6 +40,7 @@ This document consolidates all planning information for the Azure DevOps Content
 - Automatic linking of related items
 - Slack alerting
 - Per-item Apply button on the dashboard
+- Converting plain-text lines into lists, and removing pasted styling
 
 ### Out of Scope (Future Phases) ✗
 - Cloud deployment (Azure Container Instances)
@@ -74,7 +75,7 @@ This document consolidates all planning information for the Azure DevOps Content
 
 ## 4. High-Level Requirements
 
-Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md`.
+Detailed, testable requirements are in [REQUIREMENTS.md](../3%20-%20Design/REQUIREMENTS.md); where the two differ, that document is the more precise one.
 
 ### Functional Requirements (FR)
 
@@ -88,8 +89,8 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md`.
 **FR-2: Content Polishing (v0.1)**
 - Suggest-only by default (`DRY_RUN=true`): no work item field is changed
 - Apply mode is opt-in per rule (`APPLY_FORMATTING`, `APPLY_TAG_ALIASES`, both off by default); rules that are not enabled stay suggestions
-- Format descriptions: description fields are HTML and stay HTML (normalize structure and whitespace; never convert to markdown; never rewrite the author's wording)
-- Flag missing required fields (acceptance criteria, estimate); never auto-fill them
+- Format descriptions: description fields are HTML and stay HTML; v0.1 only removes surplus blank space (empty start/end, blank gaps); never convert to markdown; never rewrite the author's wording
+- Flag missing fields (description on all types; acceptance criteria on stories, backlog items, Bugs and Features; estimate on stories and backlog items); never auto-fill them
 - Standardize tags only through a configured alias map (e.g. `Front End`, `frontend` → `front-end`); tags not in the map are reported on the dashboard but never changed, so existing queries and boards keep working
 - *(v0.2)* Fix grammar/spelling issues
 - *(v0.2)* Detect and create links between related items
@@ -103,7 +104,7 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md`.
 - Show every proposed change on the dashboard with before/after values
 - Also post the suggestion as a work item comment (configurable, on by default); this is the only write made in suggest-only mode
 - Each comment carries a hidden marker identifying the agent and the suggestion, so duplicates are avoided even if local state is lost
-- Post a given suggestion only once: store a hash of the suggestion per work item locally and post again only if the suggestion changes
+- Keep one agent comment per work item, in English, and update it in place when the suggestions change (API support verified in the spike); never repeat an unchanged suggestion
 
 **FR-3: Monitoring Dashboard**
 - Display last run execution time, count of items processed, success/failure rate
@@ -259,7 +260,7 @@ See RISK_REGISTER.md for complete risk analysis.
 - **[PROJECT_SCHEDULE.md](./PROJECT_SCHEDULE.md)** – Detailed timeline & milestones
 - **[RISK_REGISTER.md](./RISK_REGISTER.md)** – Risk identification & response strategies
 - **docs/3 - Design/ARCHITECTURE.md** – Technical design details (planned)
-- **docs/3 - Design/REQUIREMENTS.md** – Detailed functional requirements (planned)
+- **[REQUIREMENTS.md](../3%20-%20Design/REQUIREMENTS.md)** – Detailed functional requirements (draft)
 
 ---
 

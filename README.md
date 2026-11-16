@@ -77,7 +77,7 @@ project-root/
 ### Technical Documentation (In Progress)
 Due dates are in the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md).
 
-- **Requirements** (planned) - Detailed v0.1 requirements
+- **[Requirements](./docs/3%20-%20Design/REQUIREMENTS.md)** (draft) - Detailed v0.1 requirements
 - **Architecture Design** (planned) - System design & component diagrams
 - **Setup Guide** (planned) - Installation & configuration
 - **Operations Manual** (planned) - Deployment & troubleshooting
