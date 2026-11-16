@@ -1,133 +1,138 @@
 # Project Schedule
 ## Azure DevOps Content Polishing Agent
 
-**Document Version**: 1.0  
+**Document Version**: 2.0  
 **Date**: November 15, 2026  
-**Schedule Baseline**: See sections below
+**Scope**: v0.1 MVP (solo project)  
+**Capacity Assumption**: ~10 hours per week; ~5 hours in the weeks of Dec 21 and Dec 28 (holidays)  
+**Status**: Draft (Pending Baseline – Nov 22, 2026)
 
 ---
 
 ## 1. Execution Phase Timeline
 
-### Phase 1: Initiation (Week 1: Nov 15 - Nov 21)
-| Task | Duration | Start | End | Owner |
-|------|----------|-------|-----|-------|
-| Finalize Project Charter | 2 days | Nov 15 | Nov 16 | PM |
-| Stakeholder Kickoff | 0.5 days | Nov 17 | Nov 17 | PM |
-| Initial Planning Meeting | 0.5 days | Nov 18 | Nov 18 | PM/Tech Lead |
-| **Phase Total** | **3.5 days** | | | |
+Durations are effort hours, not calendar days. Dates are the week a task starts and the Sunday of the week it finishes.
 
-### Phase 2: Planning (Week 2-3: Nov 22 - Dec 5)
-| Task | Duration | Start | End | Owner |
-|------|----------|-------|-----|-------|
-| Detailed Requirements Analysis | 3 days | Nov 22 | Nov 24 | BA |
-| Architecture & Design | 3 days | Nov 22 | Nov 24 | Tech Lead |
-| Risk Assessment & Mitigation | 2 days | Nov 25 | Nov 26 | PM |
-| Communication Plan | 1 day | Nov 27 | Nov 27 | PM |
-| Resource Planning | 1 day | Nov 27 | Nov 27 | PM |
-| Planning Review & Approval | 1 day | Nov 28 | Nov 28 | Sponsor |
-| **Phase Total** | **11 days** | | | |
+### Phase 1: Initiation – Complete (Nov 15, 2026)
+| Task | Effort | Status |
+|------|--------|--------|
+| Project Charter approved | — | ✅ Nov 15, 2026 |
 
-### Phase 3: Implementation (Week 4-6: Dec 6 - Dec 20)
-| Task | Duration | Start | End | Owner | Dependencies |
-|--------|----------|-------|-----|-------|--------------|
-| Project Structure Setup | 1 day | Dec 6 | Dec 6 | Dev | - |
-| Azure DevOps Client Module | 3 days | Dec 6 | Dec 8 | Dev | Project Setup |
-| Work Item Processor Module | 4 days | Dec 9 | Dec 12 | Dev | Azure Client |
-| Filtering Engine | 2 days | Dec 13 | Dec 14 | Dev | Processor |
-| Flask Dashboard Development | 3 days | Dec 13 | Dec 15 | Dev | - |
-| Audit Logging System | 2 days | Dec 16 | Dec 17 | Dev | Dashboard |
-| Docker Configuration | 1 day | Dec 18 | Dec 18 | DevOps | All Modules |
-| **Phase Total** | **16 days** | | | | |
+### Phase 2: Planning (Nov 16 – Nov 22, 2026)
+| Task | Effort | Start | End |
+|------|--------|-------|-----|
+| Apply safety decisions to requirements | 2 h | Nov 16 | ✅ Nov 15 |
+| Self-review & baseline planning docs | 2 h | Nov 16 | Nov 22 |
+| **Phase Total** | **4 h** | | |
 
-### Phase 4: Testing & QA (Week 7: Dec 21 - Dec 27)
-| Task | Duration | Start | End | Owner |
-|------|----------|-------|-----|-------|
-| Unit Testing | 2 days | Dec 21 | Dec 22 | QA/Dev |
-| Integration Testing | 2 days | Dec 23 | Dec 24 | QA |
-| End-to-End Testing | 2 days | Dec 25 | Dec 26 | QA |
-| Bug Fixes & Refinement | 1 day | Dec 27 | Dec 27 | Dev |
-| **Phase Total** | **7 days** | | | |
+### Phase 3: Design (Nov 16 – Dec 6, 2026)
+| Task | Effort | Start | End | Dependencies |
+|------|--------|-------|-----|--------------|
+| REQUIREMENTS.md (v0.1 spec, Azure DevOps field mapping per process template) | 10 h | Nov 16 | Nov 29 | Planning |
+| ARCHITECTURE.md (components, data flow, concurrency & loop prevention) | 10 h | Nov 23 | Dec 6 | Requirements |
+| API spike against a test Azure DevOps project (rev `test` op, comments API, field names for Agile/Scrum/Basic) | 4 h | Nov 30 | Dec 6 | Requirements |
+| **Phase Total** | **24 h** | | | |
 
-### Phase 5: Documentation & Release (Week 8: Dec 28 - Jan 3)
-| Task | Duration | Start | End | Owner |
-|------|----------|-------|-----|-------|
-| Technical Documentation | 2 days | Dec 28 | Dec 29 | Tech Writer |
-| User/Operations Guide | 1 day | Dec 30 | Dec 30 | Tech Writer |
-| Release Notes | 0.5 days | Jan 1 | Jan 1 | PM |
-| Final Review & Approval | 1 day | Jan 2 | Jan 2 | Sponsor |
-| Production Deployment | 1 day | Jan 3 | Jan 3 | DevOps |
-| **Phase Total** | **5.5 days** | | | |
+### Phase 4: Implementation (Nov 30, 2026 – Jan 31, 2027)
+Unit tests are written alongside each module, not afterwards.
+
+| Task | Effort | Start | End | Dependencies |
+|------|--------|-------|-----|--------------|
+| Project setup + CI (lint, tests, pip-audit) | 6 h | Nov 30 | Dec 13 | – |
+| Config loading + Azure DevOps client (retries, backoff) | 14 h | Dec 7 | Dec 20 | Setup, API spike |
+| Filters + incremental WIQL query (ChangedDate watermark) | 8 h | Dec 14 | Jan 3 | Azure client |
+| Audit logger (before/after JSON) | 8 h | Dec 28 | Jan 10 | Setup |
+| Polishing rules: formatting, missing-field flags, tags | 20 h | Jan 4 | Jan 24 | Filters, Audit logger |
+| Scheduler / main loop | 4 h | Jan 18 | Jan 24 | Polishing rules |
+| Dashboard + protected manual trigger | 8 h | Jan 18 | Jan 31 | Audit logger, Scheduler |
+| Dockerfile + docker-compose | 4 h | Jan 25 | Jan 31 | All modules |
+| **Phase Total** | **72 h** | | | |
+
+### Phase 5: Testing (Feb 1 – Feb 14, 2027)
+| Task | Effort | Start | End |
+|------|--------|-------|-----|
+| Integration tests against the test project | 8 h | Feb 1 | Feb 7 |
+| End-to-end dry run on a real project | 8 h | Feb 1 | Feb 14 |
+| Bug fixes | 4 h | Feb 8 | Feb 14 |
+| **Phase Total** | **20 h** | | |
+
+### Phase 6: Documentation & Release (Feb 15 – Feb 28, 2027)
+| Task | Effort | Start | End |
+|------|--------|-------|-----|
+| Setup & operations guide | 8 h | Feb 15 | Feb 21 |
+| Dashboard API reference | 4 h | Feb 15 | Feb 28 |
+| Release notes + tag v0.1.0 | 4 h | Feb 22 | Feb 28 |
+| **Phase Total** | **16 h** | | |
+
+### Contingency Buffer (Mar 1 – Mar 21, 2027)
+| Item | Effort |
+|------|--------|
+| Buffer (~20% of planned effort) | 27 h |
+
+**Planned effort**: 136 h · **With buffer**: 163 h
 
 ---
 
 ## 2. Critical Path
 ```
-Initiation (3.5 days)
+Planning (4 h)
   ↓
-Planning (11 days)
+Requirements (10 h) → Architecture (10 h) + API spike (4 h)
   ↓
-Azure Client (3 days) → Processor (4 days) → Filtering (2 days) → Docker (1 day)
-  ↓ (parallel: Dashboard (3 days) → Audit Logging (2 days))
-Testing (7 days)
+Setup + CI (6 h) → Azure client (14 h) → Filters (8 h) → Polishing rules (20 h) → Scheduler (4 h) → Dashboard (8 h) → Docker (4 h)
+                   (Audit logger (8 h) must be done before Polishing rules)
   ↓
-Documentation & Release (5.5 days)
-
-Total Duration: ~35-40 calendar days
+Testing (20 h)
+  ↓
+Documentation & Release (16 h)
 ```
 
-**Critical Path Duration**: ~33 working days
+As a solo project, every task is effectively on the critical path; overlapping dates only mean a task starts in the same week the previous one ends.
 
 ---
 
 ## 3. Milestones
 | Milestone | Date | Status |
 |-----------|------|--------|
-| Project Charter Approved | Nov 16, 2026 | Planned |
-| Planning Complete & Baseline Set | Nov 28, 2026 | Planned |
-| Development Kickoff | Dec 6, 2026 | Planned |
-| Core Development Complete | Dec 18, 2026 | Planned |
-| Testing Complete | Dec 27, 2026 | Planned |
-| Release Ready | Jan 3, 2027 | Planned |
+| Project Charter Approved | Nov 15, 2026 | ✅ Complete |
+| Planning Baseline Set | Nov 22, 2026 | Planned |
+| Design Complete | Dec 6, 2026 | Planned |
+| Feature Complete (v0.1) | Jan 31, 2027 | Planned |
+| Testing Complete | Feb 14, 2027 | Planned |
+| v0.1.0 Released | Feb 28, 2027 | Planned |
+| Target Completion (buffer exhausted) | Mar 21, 2027 | Planned |
 
 ---
 
 ## 4. Resource Allocation
-| Role | FTE | Weeks | Notes |
-|------|-----|-------|-------|
-| Developer | 1.0 | 6 | Main implementation |
-| Tech Lead | 0.5 | 3 | Design & architecture |
-| QA Engineer | 0.5 | 2 | Testing |
-| DevOps | 0.5 | 1 | Docker & deployment |
-| Project Manager | 0.5 | 8 | Overall coordination |
-| Tech Writer | 0.5 | 1 | Documentation |
+| Role | Person | Effort |
+|------|--------|--------|
+| All roles (PM, design, development, QA, DevOps, documentation) | Abnel Lluberes | 136 h planned + 27 h buffer, ~10 h/week |
 
 ---
 
 ## 5. Schedule Risks & Contingencies
-| Risk | Probability | Impact | Mitigation | Buffer (days) |
-|------|-------------|--------|-----------|---------------|
-| Azure API limitations | Medium | Medium | Early spike testing | 2 |
-| Scope creep | Medium | High | Strict scope management | 3 |
-| Resource unavailability | Low | High | Cross-training | 2 |
-| Technical blockers | Medium | Medium | Regular technical review | 2 |
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|-----------|
+| Weekly hours fall below 10 | Medium | High | Track hours weekly; re-plan if two weeks in a row fall short |
+| Azure API limitations found late | Medium | Medium | API spike during design (by Dec 6) |
+| Scope creep | Medium | High | v0.2 backlog for anything not in the v0.1 list |
+| Technical blockers | Medium | Medium | Time-box investigations to 2 h, then simplify |
 
-**Total Contingency Buffer**: 9 days (reserve scheduling)
+**Contingency Buffer**: 27 hours (~3 weeks at 10 h/week), scheduled Mar 1 – Mar 21, 2027.
 
 ---
 
 ## 6. Schedule Tracking
-- **Status Reports**: Weekly on Fridays
-- **Schedule Reviews**: Bi-weekly
-- **Variance Threshold**: ±2 days
-- **Re-planning Trigger**: >3 days variance
+- **Status check**: Weekly (Sunday), hours spent vs. planned
+- **Variance Threshold**: ±5 hours cumulative
+- **Re-planning Trigger**: >10 hours behind plan, or buffer more than half used before Feb 28
 
 ---
 
-**Approved By**: Abnel Lluberes                     Date: ___________
+**Approved By**: _________________ Date: _________
 
 **Notes**:
-- All dates are calendar dates
-- Buffer days are not scheduled; used only if delays occur
-- Parallel work can reduce critical path by 3-5 days if resources available
-- See PROJECT_PLAN.md for detailed task descriptions
+- Estimates are effort hours for one person
+- The buffer is part of the calendar: the target completion date already includes it
+- See PROJECT_PLAN.md for scope and requirements

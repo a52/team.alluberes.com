@@ -1,74 +1,29 @@
-# Azure DevOps Content Polishing Agent
+# Azure DevOps Content Polishing Agent - production dependencies
 # Python 3.11+
+# Development tools live in requirements-dev.txt (pip install -r requirements-dev.txt)
 
-# Core Dependencies
+# Azure DevOps SDK - only beta releases exist on PyPI (no stable 7.1.0)
+azure-devops==7.1.0b4
 
-# Azure DevOps SDK for Python API integration
-azure-devops==7.1.0
+# In-process scheduler (stay on 3.x; 4.x is a breaking rewrite)
+APScheduler==3.11.3
 
-# Scheduler for running tasks on intervals
-APScheduler==3.10.4
+# Dashboard
+Flask==3.1.3
+Flask-Cors==6.0.5
 
-# Web framework for dashboard
-Flask==3.0.0
-Flask-Cors==4.0.0
+# Configuration from .env
+python-dotenv==1.2.4
 
-# Environment variable management
-python-dotenv==1.0.0
-
-# HTTP requests library
-requests==2.31.0
+# HTTP client
+requests==2.34.2
 
 # JSON schema validation
-jsonschema==4.20.0
+jsonschema==4.26.0
 
-# Logging & observability
-python-json-logger==2.0.7
-
-# Text processing & NLP (for grammar/standardization)
-textblob==0.17.1
-nltk==3.8.1
+# Structured JSON logging
+python-json-logger==4.2.0
 
 # Utilities
-python-dateutil==2.8.2
-pytz==2023.3
-
-# Development Dependencies (for development only)
-# Install with: pip install -r requirements-dev.txt
-
-# Testing
-pytest==7.4.3
-pytest-cov==4.1.0
-pytest-mock==3.12.0
-pytest-asyncio==0.21.1
-
-# Code quality
-black==23.12.0
-pylint==3.0.3
-flake8==6.1.0
-isort==5.13.2
-
-# Type checking
-mypy==1.7.1
-types-requests==2.31.0.10
-
-# Development utilities
-ipython==8.18.1
-ipdb==0.13.13
-watchdog==3.0.0
-
-# Notes:
-# - azure-devops: Official SDK for Azure DevOps integration
-# - APScheduler: In-process task scheduling (no external dependencies)
-# - Flask: Lightweight web framework for dashboard
-# - python-dotenv: Load environment configuration from .env files
-# - textblob & nltk: For grammar checking and text analysis
-# - pytest: Testing framework with comprehensive plugins
-# - black & pylint: Code formatting and linting
-
-# Installation:
-# pip install -r requirements.txt              # Production dependencies
-# pip install -r requirements-dev.txt          # Add development tools
-
-# Generating requirements for specific environment:
-# pip freeze > requirements.txt                 # Capture exact versions
+python-dateutil==2.9.0.post0
+pytz==2026.6

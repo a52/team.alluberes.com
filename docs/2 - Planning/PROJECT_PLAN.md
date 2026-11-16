@@ -1,42 +1,48 @@
 # Project Management Plan
 ## Azure DevOps Content Polishing Agent
 
-**Document Version**: 1.0  
+**Document Version**: 2.0  
 **Date**: November 15, 2026  
-**Project Manager**: Abnel Lluberes  
-**Status**: Approved
+**Project Manager & Owner**: Abnel Lluberes  
+**Status**: Draft (Pending Baseline – Nov 22, 2026)
 
 ---
 
 ## 1. Executive Summary
 
-This document consolidates all planning information for the Azure DevOps Content Polishing Agent project. The project will deliver a containerized Python agent that automatically improves work item documentation in Azure DevOps every 5 minutes, along with a local monitoring dashboard.
+This document consolidates all planning information for the Azure DevOps Content Polishing Agent, a solo project. The v0.1 MVP is a containerized Python agent that reviews Azure DevOps work items every 5 minutes, proposes or applies content improvements (suggest-only by default), and provides a local monitoring dashboard.
 
 **Key Facts**:
 - **Start Date**: November 15, 2026
-- **Target Completion**: January 3, 2027
-- **Duration**: ~35-40 calendar days
-- **Team Size**: ~5 FTE (varying by phase)
-- **Budget Impact**: Primarily labor (~200 working hours)
+- **Planned v0.1.0 Release**: February 28, 2027
+- **Target Completion (including buffer)**: March 21, 2027
+- **Team**: 1 person (all roles), ~10 hours per week
+- **Effort**: 136 hours planned + 27 hours buffer = 163 hours
+- **Budget**: Personal time only; no paid infrastructure or tools (open-source stack, runs locally)
 - **Risk Level**: Medium
 
 ---
 
 ## 2. Project Scope
 
-### In Scope ✓
-- Automated work item content polishing (formatting, field filling, standardization)
+### In Scope – v0.1 MVP ✓
+- Suggest-only / dry-run mode as the default; applying changes is opt-in
+- Description formatting
+- Missing-field flags (acceptance criteria, story points) – flagged, never auto-filled
+- Tag standardization
 - Local Flask web dashboard with monitoring
-- Manual trigger capability via API
-- Complete audit logging system
+- Protected manual trigger
+- Complete audit logging
 - Docker containerization
 - Support for User Stories, Tasks, Bugs, Epics, Features
-- Slack alerting (basic integration)
-- Comprehensive documentation
+
+### Deferred to v0.2
+- Grammar/spelling fixes
+- Automatic linking of related items
+- Slack alerting
 
 ### Out of Scope (Future Phases) ✗
 - Cloud deployment (Azure Container Instances)
-- Advanced NLP/AI-driven improvements (v0.2)
 - Multi-organization support
 - Custom workflow automation
 - Advanced analytics dashboards
@@ -44,8 +50,9 @@ This document consolidates all planning information for the Azure DevOps Content
 
 ### Assumptions
 - Azure DevOps organization accessible & stable
+- A separate test project is available for development and testing
 - PAT will be provided securely
-- No complex multi-tenant architecture needed
+- No multi-tenant architecture needed
 - File-based logging sufficient (no external DB)
 - Localhost-only dashboard acceptable
 
@@ -56,45 +63,65 @@ This document consolidates all planning information for the Azure DevOps Content
 | Objective | Success Criteria | Measurement |
 |-----------|------------------|-------------|
 | Automate content polishing | Agent runs reliably every 5 minutes | 99% uptime in testing |
-| Provide visibility | Dashboard displays results <500ms | Load testing confirms |
-| Enable manual override | Manual trigger works within 2 min | Manual test in QA |
+| Provide visibility | Dashboard displays results <500ms | Load test |
+| Enable manual override | Manual trigger works within 2 min | Manual test |
 | Maintain audit trail | All changes logged before/after | 100% of changes audited |
-| Professional delivery | Complete documentation with setup guides | Tech review approval |
+| Safe by default | No work item changed unless apply mode is enabled | Dry-run test on a real project |
+| Professional delivery | Complete documentation with setup guides | Self-review checklist |
 | Production-ready | Zero data loss on container restart | Restart test passes |
 
 ---
 
 ## 4. High-Level Requirements
 
+Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due Nov 29, 2026).
+
 ### Functional Requirements (FR)
 
 **FR-1: Scheduled Processing**
 - Agent must execute every 5 minutes (±30 seconds)
-- Must process work items based on configurable filters
+- Must process work items changed since the last run that match configurable filters
 - Must be restartable without data loss
 
-**FR-2: Content Polishing**
-- Format descriptions with markdown standards
-- Fill missing required fields (acceptance criteria, story points)
-- Standardize labels to lowercase-hyphenated format
-- Fix grammar/spelling issues
-- Detect and create links between related items
+**FR-2: Content Polishing (v0.1)**
+- Suggest-only by default; apply mode is opt-in
+- Format descriptions: description fields are HTML and stay HTML (normalize structure and whitespace; never convert to markdown; never rewrite the author's wording)
+- Flag missing required fields (acceptance criteria, estimate); never auto-fill them
+- Standardize tags only through a configured alias map (e.g. `Front End`, `frontend` → `front-end`); tags not in the map are reported on the dashboard but never changed, so existing queries and boards keep working
+- *(v0.2)* Fix grammar/spelling issues
+- *(v0.2)* Detect and create links between related items
+
+**FR-2a: Process Template Support**
+- Support the Agile, Scrum and Basic process templates
+- Read each work item type's available fields from the Azure DevOps API instead of hardcoding them; skip a rule when its field does not exist for that type
+- Map the estimate field per template (Agile: Story Points; Scrum: Effort; Basic: verified during the design API spike) and the description field per type (e.g. Bugs use Repro Steps)
+
+**FR-2b: Suggestion Delivery**
+- Show every proposed change on the dashboard with before/after values
+- Also post the suggestion as a work item comment (configurable, on by default)
+- Post a given suggestion only once: store a hash of the suggestion per work item locally and post again only if the suggestion changes
 
 **FR-3: Monitoring Dashboard**
 - Display last run execution time, count of items processed, success/failure rate
-- Show list of recently processed items with changes made
-- Manual trigger button
+- Show list of recently processed items with proposed or applied changes
+- Manual trigger button, protected by a CSRF token so other websites cannot trigger a run
 - Localhost-only (no external access)
 
 **FR-4: Audit Logging**
-- Log every change with timestamp, user, work item ID, before/after values
+- Log every proposed and applied change with timestamp, work item ID, before/after values
 - Store logs in JSON format (file-based)
 - Enable audit trail review
 
 **FR-5: Error Handling**
 - Graceful handling of Azure DevOps API failures
-- Retry logic with exponential backoff
-- Alert on persistent failures
+- Retry logic with exponential backoff, honoring `Retry-After` headers
+- Log and surface persistent failures on the dashboard
+
+**FR-6: Safe Writes**
+- Write the audit entry before applying any change
+- Every update includes a JSON Patch `test` operation on the work item revision (`/rev`); if someone changed the item since it was read, the update is rejected, nothing is overwritten, and the item is re-evaluated on the next run
+- Loop prevention: store locally the revision produced by each agent write or comment, and skip an item while that is still its latest revision (the agent runs with the owner's PAT, so its edits cannot be told apart by `ChangedBy`)
+- Fetch only items changed since the last successful run (`System.ChangedDate` watermark stored locally)
 
 ### Non-Functional Requirements (NFR)
 
@@ -103,7 +130,7 @@ This document consolidates all planning information for the Azure DevOps Content
 - Processing cycle: <5 minutes total
 
 **NFR-2: Reliability**
-- Uptime: 99% during business hours
+- Uptime: 99% during testing
 - No data loss on container restart
 - Graceful degradation if Azure API unavailable
 
@@ -127,133 +154,82 @@ This document consolidates all planning information for the Azure DevOps Content
 
 | Deliverable | Description | Completion Date | Owner |
 |-------------|-------------|-----------------|-------|
-| Project Charter | Formal authorization & business case | Nov 16, 2026 | PM |
-| Planning Documents | Schedule, Risk Register, Requirements | Nov 28, 2026 | PM/BA |
-| Architecture Design | Technical design & component diagrams | Dec 5, 2026 | Tech Lead |
-| Source Code | Complete implementation in src/ | Dec 18, 2026 | Dev |
-| Docker Image | Containerized, runnable agent | Dec 18, 2026 | DevOps |
-| Test Suite | Unit & integration tests (>80% coverage) | Dec 27, 2026 | QA |
-| User Documentation | Setup guide, operations manual | Jan 1, 2027 | Tech Writer |
-| Technical Documentation | Architecture, API, troubleshooting guides | Jan 1, 2027 | Tech Lead |
-| Release Package | Tagged version with release notes | Jan 3, 2027 | DevOps |
+| Project Charter | Formal authorization | Nov 15, 2026 ✅ | Abnel Lluberes |
+| Planning Documents | Schedule, Risk Register, Plan | Nov 22, 2026 | Abnel Lluberes |
+| Requirements | Detailed v0.1 requirements | Nov 29, 2026 | Abnel Lluberes |
+| Architecture Design | Technical design & component diagrams | Dec 6, 2026 | Abnel Lluberes |
+| Source Code + Unit Tests | Complete v0.1 implementation in src/ | Jan 31, 2027 | Abnel Lluberes |
+| Docker Image | Containerized, runnable agent | Jan 31, 2027 | Abnel Lluberes |
+| Integration & E2E Tests | Tests against a test project, dry run on a real project | Feb 14, 2027 | Abnel Lluberes |
+| User Documentation | Setup guide, operations manual | Feb 21, 2027 | Abnel Lluberes |
+| Technical Documentation | Architecture, dashboard API reference | Feb 28, 2027 | Abnel Lluberes |
+| Release Package | Tagged v0.1.0 with release notes | Feb 28, 2027 | Abnel Lluberes |
 
 ---
 
-## 6. Stakeholder Communication Plan
+## 6. Communication Plan
 
-### Communication Approach
+As a solo project, communication is limited to self-tracking:
 
-**Weekly Status Reports** (Every Friday)
-- Recipient: PM, Tech Lead, Sponsor
-- Format: Status summary (Green/Yellow/Red), completed tasks, blockers, upcoming week
-- Medium: Email + 15-min sync call
-
-**Bi-weekly Technical Sync** (Every other Tuesday)
-- Recipient: Dev Team + Tech Lead
-- Format: Technical discussion, code review, architecture questions
-- Medium: Video call, 45 minutes
-
-**Monthly Sponsor Briefing** (1st of month)
-- Recipient: Sponsor, Stakeholders
-- Format: High-level progress, business impact, risks, decisions needed
-- Medium: In-person or video, 30 minutes
-
-**Ad-hoc Escalation** (As needed)
-- Recipient: Project Sponsor
-- Format: Critical risks, major blockers, scope changes
-- Medium: Immediate call + email documentation
-
-### Stakeholder Matrix
-
-| Stakeholder | Role | Info Needed | Frequency | Medium |
-|-------------|------|-------------|-----------|--------|
-| Project Sponsor | Approver | High-level status, blockers, budget impact | Monthly | Email + Call |
-| Tech Lead | Approver | Architecture, technical decisions, risks | Bi-weekly | Call + Chat |
-| Development Team | Executor | Requirements, tasks, acceptance criteria | Weekly | Standup + Wiki |
-| DevOps Lead | Approver | Deployment, CI/CD, infrastructure | Bi-weekly | Email |
-| QA Lead | Approver | Test plans, acceptance criteria, bugs | Weekly | Chat + Email |
+- **Weekly status check** (Sunday): hours spent vs. plan, completed tasks, blockers, next week's tasks
+- **Milestone notes**: short entry in `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` at each milestone
+- **Users of the processed Azure DevOps project**: informed before the first run in apply mode
 
 ---
 
 ## 7. Change Management Process
 
-### Change Request Procedure
+### Change Procedure
+1. **Identify** the change (new feature, scope change, date change)
+2. **Record** it in the v0.2 backlog or as a change entry (template below)
+3. **Assess** impact on hours and target date
+4. **Decide**: accept into v0.1 only if it fits the remaining buffer; otherwise defer to v0.2
 
-1. **Identification**: Any team member or stakeholder identifies needed change
-2. **Submission**: Submit Change Request form (see template below)
-3. **Analysis**: PM + Tech Lead assess impact on schedule/budget/scope
-4. **Approval**: Sponsor approves if scope/schedule impact; Tech Lead approves if technical
-5. **Communication**: Communicate approved change to all stakeholders
-6. **Implementation**: Only proceed after approval
-
-### Change Request Template
+### Change Entry Template
 ```
-Change ID: [Auto-generated]
-Date Requested: [Date]
-Requested By: Abnel Lluberes
-Category: Scope / Schedule / Resources / Other
-Current State: [Describe current implementation]
-Proposed Change: [Describe desired state]
-Business Justification: [Why is this needed?]
-Impact Analysis:
-  - Scope Impact: [Lines affected, features added/modified]
-  - Schedule Impact: [Days added/removed]
-  - Budget Impact: [Hours added/removed]
-  - Risk Impact: [New risks or mitigation changes]
-Recommendation: [PM/Tech Lead recommendation]
-Approval: ☐ Approved  ☐ Approved with Conditions  ☐ Rejected
-Approved By: Abnel Lluberes Date: [Date]
+Change ID: [CR-###]
+Date: [Date]
+Description: [What changes]
+Reason: [Why is this needed?]
+Impact: [Hours added/removed, target date effect]
+Decision: ☐ Accepted for v0.1  ☐ Deferred to v0.2  ☐ Rejected
 ```
-
-### Change Threshold
-- **Minor Changes** (≤1 day impact): Tech Lead approval only
-- **Medium Changes** (1-3 days impact): PM + Tech Lead approval
-- **Major Changes** (>3 days or scope shift): Sponsor approval required
 
 ---
 
 ## 8. Quality Management Plan
 
 ### Quality Standards
-- Code follows PEP 8 style guide
-- All functions documented with docstrings
+- Code follows PEP 8 style guide (black)
+- All public functions documented with docstrings and type hints
 - Test coverage: >80% (unit + integration)
-- Code review: All PRs require ≥2 approvals before merge
-- Documentation: Reviewed by tech writer before release
+- Every change goes through a pull request with CI passing and a self-review checklist
+- Documentation reviewed against the checklist before release
 
 ### Quality Assurance Activities
-- Peer code reviews (weekly)
-- Unit test execution (on every commit)
-- Integration testing (weekly)
-- User acceptance testing (final phase)
-- Documentation review (pre-release)
+- Unit tests written with each module
+- CI on every push (tests, lint, type check, pip-audit)
+- Integration testing against a test project
+- End-to-end dry run on a real project before enabling apply mode
 
 ### Acceptance Criteria
-- All critical bugs resolved
-- 90%+ tests passing
-- Performance benchmarks met
-- Documentation complete and reviewed
-- Security audit passed
+- No open critical bugs
+- All tests passing
+- Performance targets met
+- Documentation complete
+- pip-audit and bandit clean
 
 ---
 
 ## 9. Resource Plan
 
-### Team Composition
-
-| Role | FTE | Duration | Responsibilities |
-|------|-----|----------|------------------|
-| Developer | 1.0 | 6 weeks | Core implementation |
-| Tech Lead | 0.5 | 3 weeks | Architecture, code review |
-| QA Engineer | 0.5 | 2 weeks | Testing, quality assurance |
-| DevOps Engineer | 0.5 | 1 week | Docker, deployment |
-| Project Manager | 0.5 | 8 weeks | Overall coordination |
-| Tech Writer | 0.5 | 1 week | Documentation |
+| Role | Person | Effort |
+|------|--------|--------|
+| All roles (PM, design, development, QA, DevOps, documentation) | Abnel Lluberes | ~10 h/week; 136 h planned + 27 h buffer |
 
 ### Resource Constraints
-- All team members working on concurrent projects
-- Need to schedule around existing commitments
-- Cross-training needed for backup
+- Single person: no backup if unavailable
+- Reduced availability during the weeks of Dec 21 and Dec 28
 
 ---
 
@@ -261,39 +237,37 @@ Approved By: Abnel Lluberes Date: [Date]
 
 See RISK_REGISTER.md for complete risk analysis.
 
-**Critical Risks**:
-1. Azure API rate limiting (Medium prob, High impact)
-2. PAT token expiration (Low prob, Critical impact)
-3. Work item linking creates circular deps (Medium prob, High impact)
-4. Scope creep delays deadline (Medium prob, High impact)
+**Top Risks**:
+1. Weekly hours fall short (single person, side project)
+2. Azure API rate limiting (Medium prob, High impact)
+3. PAT token expiration (Low prob, Critical impact)
+4. Scope creep delays the release (Medium prob, High impact)
 
-**Contingency**: 9 calendar days buffer built into schedule
+**Contingency**: 27 hours of buffer, scheduled Mar 1 – Mar 21, 2027
 
 ---
 
 ## 11. References
 
-- **PROJECT_CHARTER.md** - Formal authorization & business case
-- **PROJECT_SCHEDULE.md** - Detailed timeline & milestones
-- **RISK_REGISTER.md** - Risk identification & response strategies
-- **../design/ARCHITECTURE.md** - Technical design details (to be created)
-- **../design/REQUIREMENTS.md** - Detailed functional requirements (to be created)
+- **[PROJECT_CHARTER.md](../1%20-%20Initiation/PROJECT_CHARTER.md)** – Formal authorization
+- **[PROJECT_SCHEDULE.md](./PROJECT_SCHEDULE.md)** – Detailed timeline & milestones
+- **[RISK_REGISTER.md](./RISK_REGISTER.md)** – Risk identification & response strategies
+- **docs/3 - Design/ARCHITECTURE.md** – Technical design details (due Dec 6, 2026)
+- **docs/3 - Design/REQUIREMENTS.md** – Detailed functional requirements (due Nov 29, 2026)
 
 ---
 
 ## 12. Approval & Sign-off
 
-| Role | Name | Signature | Date |
-|------|------|-----------|------|
-| Project Sponsor | _____________ | _____________ | _____ |
-| Project Manager | _____________ | _____________ | _____ |
-| Tech Lead | _____________ | _____________ | _____ |
+| Role | Name | Date |
+|------|------|------|
+| Sponsor / Project Manager / Tech Lead | Abnel Lluberes | _____ |
 
 ---
 
 **Document Control**:
-- Version: 1.0
+- Version: 2.0
 - Created: November 15, 2026
 - Last Updated: November 15, 2026
-- Status: Draft (Pending Approval)
-- Next Review: November 28, 2026
+- Status: Draft (Pending Baseline)
+- Next Review: November 22, 2026
