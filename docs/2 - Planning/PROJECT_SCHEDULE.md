@@ -1,11 +1,14 @@
 # Project Schedule
 ## Azure DevOps Content Polishing Agent
 
-**Document Version**: 2.0  
+**Document Version**: 2.2  
 **Date**: November 15, 2026  
 **Scope**: v0.1 MVP (solo project)  
-**Capacity Assumption**: ~10 hours per week; ~5 hours in the weeks of Dec 21 and Dec 28 (holidays)  
+**Deadline**: None. Every date in this document is a forecast, not a commitment. The goal is an early version in February 2027 on a best-effort basis; alluberes.com is the owner's main project and takes priority.  
+**Capacity Assumption (for the forecast)**: ~10 hours per week; ~5 hours in the weeks of Dec 21 and Dec 28 (holidays)  
 **Status**: Draft (Pending Baseline – Nov 22, 2026)
+
+**This is the only document that carries dates and effort hours.** Other documents link here instead of repeating them.
 
 ---
 
@@ -30,7 +33,8 @@ Durations are effort hours, not calendar days. Dates are the week a task starts 
 |------|--------|-------|-----|--------------|
 | REQUIREMENTS.md (v0.1 spec, Azure DevOps field mapping per process template) | 10 h | Nov 16 | Nov 29 | Planning |
 | ARCHITECTURE.md (components, data flow, concurrency & loop prevention) | 10 h | Nov 23 | Dec 6 | Requirements |
-| API spike against a test Azure DevOps project (rev `test` op, comments API, field names for Agile/Scrum/Basic) | 4 h | Nov 30 | Dec 6 | Requirements |
+| Create a free test Azure DevOps organization with Agile, Scrum and Basic projects | part of spike | Nov 30 | Dec 6 | – |
+| API spike against the test projects (rev `test` op, comments API, field names per template, SDK vs. plain REST decision) | 4 h | Nov 30 | Dec 6 | Requirements, test projects |
 | **Phase Total** | **24 h** | | | |
 
 ### Phase 4: Implementation (Nov 30, 2026 – Jan 31, 2027)
@@ -92,15 +96,15 @@ As a solo project, every task is effectively on the critical path; overlapping d
 ---
 
 ## 3. Milestones
-| Milestone | Date | Status |
-|-----------|------|--------|
+| Milestone | Forecast Date | Status |
+|-----------|---------------|--------|
 | Project Charter Approved | Nov 15, 2026 | ✅ Complete |
-| Planning Baseline Set | Nov 22, 2026 | Planned |
-| Design Complete | Dec 6, 2026 | Planned |
-| Feature Complete (v0.1) | Jan 31, 2027 | Planned |
-| Testing Complete | Feb 14, 2027 | Planned |
-| v0.1.0 Released | Feb 28, 2027 | Planned |
-| Target Completion (buffer exhausted) | Mar 21, 2027 | Planned |
+| Planning Baseline Set | Nov 22, 2026 | Forecast |
+| Design Complete + re-estimate checkpoint | Dec 6, 2026 | Forecast |
+| Feature Complete (v0.1) | Jan 31, 2027 | Forecast |
+| Testing Complete | Feb 14, 2027 | Forecast |
+| v0.1.0 Released | Feb 28, 2027 | Forecast |
+| Latest forecast if the whole buffer is used | Mar 21, 2027 | Forecast |
 
 ---
 
@@ -114,7 +118,7 @@ As a solo project, every task is effectively on the critical path; overlapping d
 ## 5. Schedule Risks & Contingencies
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|--------|-----------|
-| Weekly hours fall below 10 | Medium | High | Track hours weekly; re-plan if two weeks in a row fall short |
+| Weekly hours fall below 10 (main project takes priority) | High | Low | No deadline is at stake: track hours weekly and move the forecast dates |
 | Azure API limitations found late | Medium | Medium | API spike during design (by Dec 6) |
 | Scope creep | Medium | High | v0.2 backlog for anything not in the v0.1 list |
 | Technical blockers | Medium | Medium | Time-box investigations to 2 h, then simplify |
@@ -124,9 +128,19 @@ As a solo project, every task is effectively on the critical path; overlapping d
 ---
 
 ## 6. Schedule Tracking
-- **Status check**: Weekly (Sunday), hours spent vs. planned
+- **Status check**: Weekly (Sunday), hours spent vs. planned, recorded in `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md`
 - **Variance Threshold**: ±5 hours cumulative
-- **Re-planning Trigger**: >10 hours behind plan, or buffer more than half used before Feb 28
+- **Forecast Update**: when actual hours differ from plan by more than 10, move the forecast dates in this document
+
+---
+
+## 7. Estimate Basis & Re-estimate Checkpoint
+
+The task estimates are top-down: they were scaled from the original team plan, not built bottom-up. Scope was also added after estimating without adding hours: suggestion comments with duplicate protection, the local state store, support for three process templates, the quiet period and the tag alias map.
+
+- **Checkpoint**: at Design Complete (Dec 6, 2026), re-estimate every implementation task using what the API spike showed, and update this document
+- **Until then**: compare actual and planned hours every week; if the first three weeks run more than 25% over, raise the estimates and move the forecast before implementation starts
+- **Expectation**: the added scope is likely to use part of the contingency buffer
 
 ---
 
@@ -134,5 +148,6 @@ As a solo project, every task is effectively on the critical path; overlapping d
 
 **Notes**:
 - Estimates are effort hours for one person
-- The buffer is part of the calendar: the target completion date already includes it
+- The buffer is part of the calendar: the latest forecast date already includes it
+- Dates assume the stated weekly capacity; fewer hours in a week simply move the forecast
 - See PROJECT_PLAN.md for scope and requirements

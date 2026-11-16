@@ -1,11 +1,15 @@
 # PMI Project Management Phases Guide
 ## Azure DevOps Content Polishing Agent
 
-This document explains the 5 Project Management Institute (PMI) phases applied to this project and how to navigate the documentation structure.
+This document explains how this project applies the Project Management Institute (PMI) process groups and how to navigate the documentation structure.
+
+PMBOK defines five process groups: Initiating, Planning, Executing, Monitoring & Controlling, and Closing. This project adapts them into five phases: Design is added as a project-specific phase before execution, and Closing documents (lessons learned, sign-off) live in the `5 - Monitoring & Controlling/` folder.
+
+**Dates and effort are kept only in [PROJECT_SCHEDULE.md](./2%20-%20Planning/PROJECT_SCHEDULE.md).** This guide shows phase order and status only.
 
 ---
 
-## 📊 PMI Project Lifecycle (5 Phases)
+## 📊 Project Lifecycle (5 Phases, adapted from PMI)
 
 ```
 Phase 1: INITIATION          Phase 2: PLANNING          Phase 3: DESIGN/EXECUTION
@@ -47,10 +51,10 @@ docs/
 │   │   • Detailed timeline (all 5 phases)
 │   │   • Milestones & critical path
 │   │   • Resource allocation
-│   │   • Contingency buffer (27 hours)
+│   │   • Contingency buffer
 │   │
 │   ├── RISK_REGISTER.md               
-│   │   • Risk identification (17 risks)
+│   │   • Risk identification
 │   │   • Probability/Impact matrix
 │   │   • Mitigation strategies
 │   │   • Contingency plans
@@ -116,7 +120,7 @@ docs/
 
 ## 📅 Phase Overview
 
-### Phase 1: Initiation (Nov 15, 2026)
+### Phase 1: Initiation
 **Status**: ✅ Complete (Charter approved Nov 15, 2026)  
 **Focus**: Authorization
 
@@ -132,9 +136,8 @@ docs/
 
 ---
 
-### Phase 2: Planning (Nov 16 – Nov 22, 2026)
-**Status**: 🟡 In Progress (documents drafted; baseline Nov 22, 2026)  
-**Effort**: 4 hours  
+### Phase 2: Planning
+**Status**: 🟡 In Progress (documents drafted; baseline pending)  
 **Focus**: Schedule, risks, resource allocation
 
 **Documents in `2 - Planning/`:**
@@ -155,14 +158,13 @@ docs/
 
 ---
 
-### Phase 3: Design (Nov 16 – Dec 6, 2026, overlaps with planning)
+### Phase 3: Design
 **Status**: 📝 Upcoming  
-**Effort**: 24 hours  
 **Focus**: Architecture & detailed requirements
 
 **Documents to create in `3 - Design/`:**
-- ARCHITECTURE.md (System design, components, data flow) – due Dec 6, 2026
-- REQUIREMENTS.md (Detailed functional specs, use cases) – due Nov 29, 2026
+- ARCHITECTURE.md (System design, components, data flow)
+- REQUIREMENTS.md (Detailed functional specs, use cases)
 - TECHNICAL_SPECIFICATIONS.md (APIs, database, security)
 
 **Key Activities**:
@@ -179,9 +181,8 @@ docs/
 
 ---
 
-### Phase 4: Implementation & Testing (Nov 30, 2026 – Feb 14, 2027)
+### Phase 4: Implementation & Testing
 **Status**: 📝 Upcoming  
-**Effort**: 72 hours implementation + 20 hours testing  
 **Focus**: Development, testing
 
 **Documents to create in `4 - Implementation/`:**
@@ -192,7 +193,7 @@ docs/
 **Key Activities**:
 - [ ] Develop source code (src/ folder)
 - [ ] Create Docker container (build/ folder)
-- [ ] Unit tests with each module; integration & end-to-end tests (Feb 1 – Feb 14)
+- [ ] Unit tests with each module; integration & end-to-end tests
 - [ ] Self-review & CI quality checks
 - [ ] Performance testing
 
@@ -204,9 +205,8 @@ docs/
 
 ---
 
-### Phase 5: Release, Monitoring & Closure (Feb 15 – Mar 21, 2027)
+### Phase 5: Release, Monitoring & Closure
 **Status**: 📝 Upcoming  
-**Effort**: 16 hours + 27 hours buffer  
 **Focus**: Documentation, release, monitoring, closure
 
 **Documents to create in `5 - Monitoring & Controlling/`:**
@@ -215,7 +215,7 @@ docs/
 - LESSONS_LEARNED.md (Post-project review)
 
 **Key Activities**:
-- [ ] v0.1.0 release (Feb 28, 2027)
+- [ ] v0.1.0 release
 - [ ] Production deployment
 - [ ] Monitor initial performance
 - [ ] Document lessons learned
@@ -246,16 +246,16 @@ docs/
 → See `docs/2 - Planning/PROJECT_PLAN.md` (when complete, see `docs/3 - Design/REQUIREMENTS.md`)
 
 **Understand the architecture**
-→ See `docs/3 - Design/ARCHITECTURE.md` (due Dec 6, 2026)
+→ See `docs/3 - Design/ARCHITECTURE.md` (planned)
 
 **Set up development environment**
 → See `CONTRIBUTING.md` and `.env.example`
 
 **Deploy or operate the agent**
-→ See `docs/4 - Implementation/DEPLOYMENT_GUIDE.md` and `OPERATIONS_MANUAL.md` (due Feb 21, 2027)
+→ See `docs/4 - Implementation/DEPLOYMENT_GUIDE.md` and `OPERATIONS_MANUAL.md` (planned)
 
 **Check project status**
-→ See `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (coming weekly)
+→ See `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (updated weekly)
 
 ---
 
@@ -298,15 +298,15 @@ All documents include:
 Each phase must complete before moving to the next:
 
 ```
-Phase 1 ✅ COMPLETE (Nov 15, 2026)
+Phase 1 ✅ COMPLETE (charter approved Nov 15, 2026)
     ↓ Gate Review
-Phase 2 🟡 IN PROGRESS (baseline Nov 22, 2026)
+Phase 2 🟡 IN PROGRESS
     ↓ Gate Review
-Phase 3 📝 DESIGN COMPLETE BY Dec 6, 2026
+Phase 3 📝 UPCOMING (overlaps with Phase 2)
     ↓ Gate Review
-Phase 4 📝 FEATURE COMPLETE Jan 31, 2027; TESTING COMPLETE Feb 14, 2027
+Phase 4 📝 UPCOMING
     ↓ Gate Review
-Phase 5 📝 RELEASE Feb 28, 2027; TARGET COMPLETION Mar 21, 2027
+Phase 5 📝 UPCOMING
     ↓ Gate Review
 PROJECT CLOSURE ✅
 ```
@@ -342,7 +342,7 @@ PROJECT CLOSURE ✅
 
 ### Monitoring & Controlling (Pending 📝)
 - [ ] PERFORMANCE_METRICS.md - KPIs
-- [ ] STATUS_REPORTS.md - Weekly updates
+- [x] STATUS_REPORTS.md - Weekly updates (started)
 - [ ] LESSONS_LEARNED.md - Post-project review
 
 ---
@@ -353,7 +353,7 @@ This project follows PMI standards for:
 
 ✅ **Project Charter** - Formal authorization document (PMBOK: Initiate Processes)  
 ✅ **Project Management Plan** - Consolidated planning (PMBOK: Planning Processes)  
-✅ **Schedule Baseline** - Integrated schedule (PMBOK: Time Management)  
+✅ **Schedule Baseline** - Integrated schedule (PMBOK: Schedule Management)  
 ✅ **Risk Register** - Comprehensive risk analysis (PMBOK: Risk Management)  
 ✅ **Stakeholder Register** - Identified & managed (PMBOK: Stakeholder Management)  
 ✅ **Change Management** - Formal change control process (PMBOK: Integration Management)  
@@ -363,5 +363,5 @@ This project follows PMI standards for:
 ---
 
 **Last Updated**: November 15, 2026  
-**Version**: 1.0  
-**Status**: Updated for solo MVP plan (Nov 15, 2026)
+**Version**: 1.1  
+**Status**: Current

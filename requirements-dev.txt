@@ -8,35 +8,22 @@
 pytest==9.2.0
 pytest-cov==7.1.0
 pytest-mock==3.17.0
-pytest-asyncio==1.5.0
 pytest-timeout==2.4.0
 pytest-xdist==3.8.0              # Parallel test execution
 
 # Code Quality & Formatting
 black==26.10.1                   # Code formatter
-pylint==4.1.4                    # Linter
-flake8==7.5.0                    # Style guide enforcement
-isort==9.0.2                     # Import sorting
+ruff==0.17.5                     # Linter + import sorting
 
 # Type Checking
 mypy==2.4.1                      # Static type checker
 types-requests==2.33.0.20261030  # Type stubs for requests
-types-python-dateutil==2.9.0.20261104 # Type stubs for dateutil
 
 # Development Tools
 ipython==9.18.1                  # Enhanced Python REPL
 ipdb==0.13.13                    # IPython debugger
 watchdog==7.1.0                  # File system event monitoring
 pre-commit==4.7.0                # Git pre-commit hooks
-
-# Documentation
-sphinx==9.0.4                    # Documentation generator
-sphinx-rtd-theme==3.1.0          # ReadTheDocs theme
-sphinx-autodoc-typehints==3.6.1  # Auto-document type hints
-
-# Performance Profiling
-memory-profiler==0.61.0          # Memory usage profiling
-line-profiler==5.1.0             # Line-by-line profiling
 
 # Security
 bandit==1.9.4                    # Security issue scanner
@@ -54,7 +41,7 @@ pip-audit==2.10.1                # Dependency vulnerability scanner
 # black src/ tests/
 
 # Check linting
-# pylint src/
+# ruff check src/ tests/
 
 # Type checking
 # mypy src/

@@ -1,7 +1,7 @@
 # Project Charter
 ## Azure DevOps Content Polishing Agent
 
-**Document Version**: 1.1  
+**Document Version**: 1.3  
 **Date**: November 15, 2026  
 **Project Manager & Owner**: Abnel Lluberes  
 **Sponsor**: Abnel Lluberes  
@@ -36,7 +36,8 @@ A self-contained Docker agent that runs every 5 minutes to:
 
 ## 4. High-Level Requirements (v0.1 MVP)
 - [ ] Scheduled execution every 5 minutes
-- [ ] Suggest-only / dry-run mode as the default
+- [ ] Suggest-only / dry-run mode as the default; applying changes is opt-in per rule
+- [ ] Suggestions shown on the dashboard and posted once per item as a comment
 - [ ] Description formatting
 - [ ] Missing-field flags (no auto-filled estimates or criteria)
 - [ ] Tag standardization
@@ -45,18 +46,20 @@ A self-contained Docker agent that runs every 5 minutes to:
 - [ ] Docker containerization
 - [ ] Support for multiple work item types
 
-**Deferred to v0.2**: grammar/spelling fixes, automatic linking of related items, Slack notifications.
+**Deferred to v0.2**: grammar/spelling fixes, automatic linking of related items, Slack notifications, per-item Apply button on the dashboard.
 
 ## 5. Success Criteria
-- Agent runs reliably (99% uptime during testing)
+- Agent runs 7 days unattended without a crash
 - Dashboard response time <500ms
 - All changes logged with before/after comparison
 - No work item is changed without an audit entry
+- In suggest-only mode no work item field is changed (the only write is one optional comment per suggestion)
 - Documentation complete and clear
 - Zero data loss on container restart
 
 ## 6. Project Constraints
-- Solo project: one person in every role, ~10 hours per week
+- Solo project: one person in every role, secondary to the owner's main project (alluberes.com)
+- No fixed deadline: schedule dates are forecasts based on ~10 hours per week
 - Local deployment only (no cloud hosting required)
 - Must integrate with an existing Azure DevOps organization
 - Requires PAT (Personal Access Token) authentication
@@ -70,20 +73,9 @@ A self-contained Docker agent that runs every 5 minutes to:
 - Dashboard is localhost-only for this phase
 
 ## 8. High-Level Timeline
-| Phase | Dates | Effort |
-|-------|-------|--------|
-| Initiation | Nov 15, 2026 | Complete |
-| Planning | Nov 16 – Nov 22, 2026 | 4 h |
-| Design | Nov 16 – Dec 6, 2026 | 24 h |
-| Implementation | Nov 30, 2026 – Jan 31, 2027 | 72 h |
-| Testing | Feb 1 – Feb 14, 2027 | 20 h |
-| Documentation & Release | Feb 15 – Feb 28, 2027 | 16 h |
-| Contingency buffer | Mar 1 – Mar 21, 2027 | 27 h |
+Initiation (complete) → Planning → Design → Implementation → Testing → Documentation & Release, followed by a contingency buffer.
 
-**Planned v0.1.0 release**: February 28, 2027  
-**Target Completion (including buffer)**: March 21, 2027
-
-See [PROJECT_SCHEDULE.md](../2%20-%20Planning/PROJECT_SCHEDULE.md) for the task-level schedule.
+There is no fixed deadline. Forecast dates and effort are kept only in [PROJECT_SCHEDULE.md](../2%20-%20Planning/PROJECT_SCHEDULE.md), so they cannot drift between documents.
 
 ## 9. Authorized By
 - **Project Sponsor**: Abnel Lluberes  Date: November 15, 2026

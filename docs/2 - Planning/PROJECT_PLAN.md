@@ -1,10 +1,10 @@
 # Project Management Plan
 ## Azure DevOps Content Polishing Agent
 
-**Document Version**: 2.0  
+**Document Version**: 2.1  
 **Date**: November 15, 2026  
 **Project Manager & Owner**: Abnel Lluberes  
-**Status**: Draft (Pending Baseline – Nov 22, 2026)
+**Status**: Draft (Pending Baseline)
 
 ---
 
@@ -14,10 +14,9 @@ This document consolidates all planning information for the Azure DevOps Content
 
 **Key Facts**:
 - **Start Date**: November 15, 2026
-- **Planned v0.1.0 Release**: February 28, 2027
-- **Target Completion (including buffer)**: March 21, 2027
-- **Team**: 1 person (all roles), ~10 hours per week
-- **Effort**: 136 hours planned + 27 hours buffer = 163 hours
+- **Timeline & Effort**: see [PROJECT_SCHEDULE.md](./PROJECT_SCHEDULE.md), the only document that carries dates and hours
+- **Team**: 1 person (all roles), part-time; alluberes.com is the owner's main project
+- **Deadline**: None; schedule dates are forecasts, not commitments
 - **Budget**: Personal time only; no paid infrastructure or tools (open-source stack, runs locally)
 - **Risk Level**: Medium
 
@@ -26,7 +25,7 @@ This document consolidates all planning information for the Azure DevOps Content
 ## 2. Project Scope
 
 ### In Scope – v0.1 MVP ✓
-- Suggest-only / dry-run mode as the default; applying changes is opt-in
+- Suggest-only / dry-run mode as the default; applying changes is opt-in per rule
 - Description formatting
 - Missing-field flags (acceptance criteria, story points) – flagged, never auto-filled
 - Tag standardization
@@ -40,6 +39,7 @@ This document consolidates all planning information for the Azure DevOps Content
 - Grammar/spelling fixes
 - Automatic linking of related items
 - Slack alerting
+- Per-item Apply button on the dashboard
 
 ### Out of Scope (Future Phases) ✗
 - Cloud deployment (Azure Container Instances)
@@ -62,11 +62,11 @@ This document consolidates all planning information for the Azure DevOps Content
 
 | Objective | Success Criteria | Measurement |
 |-----------|------------------|-------------|
-| Automate content polishing | Agent runs reliably every 5 minutes | 99% uptime in testing |
+| Automate content polishing | Agent runs every 5 minutes for 7 days unattended without a crash | 7-day soak test |
 | Provide visibility | Dashboard displays results <500ms | Load test |
 | Enable manual override | Manual trigger works within 2 min | Manual test |
 | Maintain audit trail | All changes logged before/after | 100% of changes audited |
-| Safe by default | No work item changed unless apply mode is enabled | Dry-run test on a real project |
+| Safe by default | No work item field changed unless apply mode is enabled; the only write in suggest-only mode is one optional comment per suggestion | Dry-run test on a real project |
 | Professional delivery | Complete documentation with setup guides | Self-review checklist |
 | Production-ready | Zero data loss on container restart | Restart test passes |
 
@@ -74,17 +74,20 @@ This document consolidates all planning information for the Azure DevOps Content
 
 ## 4. High-Level Requirements
 
-Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due Nov 29, 2026).
+Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md`.
 
 ### Functional Requirements (FR)
 
 **FR-1: Scheduled Processing**
 - Agent must execute every 5 minutes (±30 seconds)
 - Must process work items changed since the last run that match configurable filters
+- Must skip items changed within the quiet period (default 30 minutes), so items someone is still writing are left alone
+- Default filters must work on Agile, Scrum and Basic: exclude finished states (Closed, Done, Removed) instead of naming one template's active state
 - Must be restartable without data loss
 
 **FR-2: Content Polishing (v0.1)**
-- Suggest-only by default; apply mode is opt-in
+- Suggest-only by default (`DRY_RUN=true`): no work item field is changed
+- Apply mode is opt-in per rule (`APPLY_FORMATTING`, `APPLY_TAG_ALIASES`, both off by default); rules that are not enabled stay suggestions
 - Format descriptions: description fields are HTML and stay HTML (normalize structure and whitespace; never convert to markdown; never rewrite the author's wording)
 - Flag missing required fields (acceptance criteria, estimate); never auto-fill them
 - Standardize tags only through a configured alias map (e.g. `Front End`, `frontend` → `front-end`); tags not in the map are reported on the dashboard but never changed, so existing queries and boards keep working
@@ -98,7 +101,8 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due 
 
 **FR-2b: Suggestion Delivery**
 - Show every proposed change on the dashboard with before/after values
-- Also post the suggestion as a work item comment (configurable, on by default)
+- Also post the suggestion as a work item comment (configurable, on by default); this is the only write made in suggest-only mode
+- Each comment carries a hidden marker identifying the agent and the suggestion, so duplicates are avoided even if local state is lost
 - Post a given suggestion only once: store a hash of the suggestion per work item locally and post again only if the suggestion changes
 
 **FR-3: Monitoring Dashboard**
@@ -130,7 +134,7 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due 
 - Processing cycle: <5 minutes total
 
 **NFR-2: Reliability**
-- Uptime: 99% during testing
+- Runs 7 days unattended without a crash
 - No data loss on container restart
 - Graceful degradation if Azure API unavailable
 
@@ -140,7 +144,7 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due 
 - Localhost-only access for dashboard
 
 **NFR-4: Scalability**
-- Support up to 1000 work items per cycle
+- Work through a backlog of 1000 changed work items across cycles (per-cycle cap is configurable)
 - Archive logs when >1GB
 
 **NFR-5: Maintainability**
@@ -152,18 +156,20 @@ Detailed requirements will be written in `docs/3 - Design/REQUIREMENTS.md` (due 
 
 ## 5. Key Deliverables
 
-| Deliverable | Description | Completion Date | Owner |
-|-------------|-------------|-----------------|-------|
-| Project Charter | Formal authorization | Nov 15, 2026 ✅ | Abnel Lluberes |
-| Planning Documents | Schedule, Risk Register, Plan | Nov 22, 2026 | Abnel Lluberes |
-| Requirements | Detailed v0.1 requirements | Nov 29, 2026 | Abnel Lluberes |
-| Architecture Design | Technical design & component diagrams | Dec 6, 2026 | Abnel Lluberes |
-| Source Code + Unit Tests | Complete v0.1 implementation in src/ | Jan 31, 2027 | Abnel Lluberes |
-| Docker Image | Containerized, runnable agent | Jan 31, 2027 | Abnel Lluberes |
-| Integration & E2E Tests | Tests against a test project, dry run on a real project | Feb 14, 2027 | Abnel Lluberes |
-| User Documentation | Setup guide, operations manual | Feb 21, 2027 | Abnel Lluberes |
-| Technical Documentation | Architecture, dashboard API reference | Feb 28, 2027 | Abnel Lluberes |
-| Release Package | Tagged v0.1.0 with release notes | Feb 28, 2027 | Abnel Lluberes |
+Due dates are in [PROJECT_SCHEDULE.md](./PROJECT_SCHEDULE.md).
+
+| Deliverable | Description | Owner |
+|-------------|-------------|-------|
+| Project Charter | Formal authorization (✅ approved Nov 15, 2026) | Abnel Lluberes |
+| Planning Documents | Schedule, Risk Register, Plan | Abnel Lluberes |
+| Requirements | Detailed v0.1 requirements | Abnel Lluberes |
+| Architecture Design | Technical design & component diagrams | Abnel Lluberes |
+| Source Code + Unit Tests | Complete v0.1 implementation in src/ | Abnel Lluberes |
+| Docker Image | Containerized, runnable agent | Abnel Lluberes |
+| Integration & E2E Tests | Tests against a test project, dry run on a real project | Abnel Lluberes |
+| User Documentation | Setup guide, operations manual | Abnel Lluberes |
+| Technical Documentation | Architecture, dashboard API reference | Abnel Lluberes |
+| Release Package | Tagged v0.1.0 with release notes | Abnel Lluberes |
 
 ---
 
@@ -225,11 +231,11 @@ Decision: ☐ Accepted for v0.1  ☐ Deferred to v0.2  ☐ Rejected
 
 | Role | Person | Effort |
 |------|--------|--------|
-| All roles (PM, design, development, QA, DevOps, documentation) | Abnel Lluberes | ~10 h/week; 136 h planned + 27 h buffer |
+| All roles (PM, design, development, QA, DevOps, documentation) | Abnel Lluberes | Part-time; capacity and effort are in PROJECT_SCHEDULE.md |
 
 ### Resource Constraints
 - Single person: no backup if unavailable
-- Reduced availability during the weeks of Dec 21 and Dec 28
+- Reduced availability during the year-end holiday weeks
 
 ---
 
@@ -238,12 +244,12 @@ Decision: ☐ Accepted for v0.1  ☐ Deferred to v0.2  ☐ Rejected
 See RISK_REGISTER.md for complete risk analysis.
 
 **Top Risks**:
-1. Weekly hours fall short (single person, side project)
+1. Weekly hours fall short (single person, secondary project) – moves the forecast; no deadline at stake
 2. Azure API rate limiting (Medium prob, High impact)
 3. PAT token expiration (Low prob, Critical impact)
-4. Scope creep delays the release (Medium prob, High impact)
+4. Scope creep keeps pushing the forecast release out (Medium prob, Medium impact)
 
-**Contingency**: 27 hours of buffer, scheduled Mar 1 – Mar 21, 2027
+**Contingency**: a scheduled buffer of about 20% of planned effort (see PROJECT_SCHEDULE.md)
 
 ---
 
@@ -252,8 +258,8 @@ See RISK_REGISTER.md for complete risk analysis.
 - **[PROJECT_CHARTER.md](../1%20-%20Initiation/PROJECT_CHARTER.md)** – Formal authorization
 - **[PROJECT_SCHEDULE.md](./PROJECT_SCHEDULE.md)** – Detailed timeline & milestones
 - **[RISK_REGISTER.md](./RISK_REGISTER.md)** – Risk identification & response strategies
-- **docs/3 - Design/ARCHITECTURE.md** – Technical design details (due Dec 6, 2026)
-- **docs/3 - Design/REQUIREMENTS.md** – Detailed functional requirements (due Nov 29, 2026)
+- **docs/3 - Design/ARCHITECTURE.md** – Technical design details (planned)
+- **docs/3 - Design/REQUIREMENTS.md** – Detailed functional requirements (planned)
 
 ---
 
@@ -266,8 +272,8 @@ See RISK_REGISTER.md for complete risk analysis.
 ---
 
 **Document Control**:
-- Version: 2.0
+- Version: 2.1
 - Created: November 15, 2026
 - Last Updated: November 15, 2026
 - Status: Draft (Pending Baseline)
-- Next Review: November 22, 2026
+- Next Review: At the planning baseline

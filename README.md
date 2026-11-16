@@ -8,7 +8,7 @@
 
 ## 📋 Project Overview
 
-An automated, containerized agent that reviews Azure DevOps work items every 5 minutes and proposes (or, when enabled, applies) improvements. v0.1 is suggest-only by default:
+An automated, containerized agent that reviews Azure DevOps work items every 5 minutes and proposes improvements. v0.1 is suggest-only by default: no work item field is changed, suggestions appear on the dashboard and as one comment per item, and applying changes is opt-in per rule.
 - ✨ Formatting descriptions
 - 📝 Flagging missing required fields (acceptance criteria, story points)
 - 🏷️ Standardizing tags
@@ -75,11 +75,13 @@ project-root/
 - **[Archive](./docs/archive/README.md)** - Superseded documents (illustrative business case), not maintained
 
 ### Technical Documentation (In Progress)
-- **Requirements** (Due Nov 29, 2026) - Detailed v0.1 requirements
-- **Architecture Design** (Due Dec 6, 2026) - System design & component diagrams
-- **Setup Guide** (Due Feb 21, 2027) - Installation & configuration
-- **Operations Manual** (Due Feb 21, 2027) - Deployment & troubleshooting
-- **API Reference** (Due Feb 28, 2027) - Dashboard API endpoints
+Due dates are in the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md).
+
+- **Requirements** (planned) - Detailed v0.1 requirements
+- **Architecture Design** (planned) - System design & component diagrams
+- **Setup Guide** (planned) - Installation & configuration
+- **Operations Manual** (planned) - Deployment & troubleshooting
+- **API Reference** (planned) - Dashboard API endpoints
 
 ---
 
@@ -101,31 +103,31 @@ cp .env.example .env
 # Edit .env and add your Azure DevOps credentials
 
 # Start the agent with Docker
-docker-compose up
+docker compose up
 ```
 
 ### First Run
 The agent will:
 1. Connect to your Azure DevOps organization
 2. Fetch work items matching your configured filters
-3. Apply polishing rules
-4. Display results on the dashboard at `http://localhost:5000`
+3. Evaluate the polishing rules and record suggestions (no fields are changed in the default suggest-only mode)
+4. Display results on the dashboard at `http://localhost:8080`
 
 ---
 
 ## 🏛️ Project Phases
 
-Solo project at ~10 hours per week. See the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md) for task-level dates.
+Solo, part-time project with no fixed deadline. Forecast dates and effort are kept only in the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md); weekly progress is in the [Status Reports](./docs/5%20-%20Monitoring%20%26%20Controlling/STATUS_REPORTS.md).
 
-| Phase | Dates | Effort | Status | Deliverables |
-|-------|-------|--------|--------|--------------|
-| **Initiation** | Nov 15, 2026 | – | 🟢 Complete | Approved charter |
-| **Planning** | Nov 16 – Nov 22, 2026 | 4 h | 🟡 In Progress | Schedule, risks, plan baseline |
-| **Design** | Nov 16 – Dec 6, 2026 | 24 h | 🟠 Upcoming | Requirements, architecture, API spike |
-| **Implementation** | Nov 30, 2026 – Jan 31, 2027 | 72 h | 🟠 Upcoming | Source code + unit tests, Docker image |
-| **Testing** | Feb 1 – Feb 14, 2027 | 20 h | 🟠 Upcoming | Integration & end-to-end tests |
-| **Release** | Feb 15 – Feb 28, 2027 | 16 h | 🟠 Upcoming | Documentation, v0.1.0 tag |
-| **Buffer** | Mar 1 – Mar 21, 2027 | 27 h | 🟠 Reserve | Target completion Mar 21, 2027 |
+| Phase | Status | Deliverables |
+|-------|--------|--------------|
+| **Initiation** | 🟢 Complete | Approved charter |
+| **Planning** | 🟡 In Progress | Schedule, risks, plan baseline |
+| **Design** | 🟠 Upcoming | Requirements, architecture, API spike |
+| **Implementation** | 🟠 Upcoming | Source code + unit tests, Docker image |
+| **Testing** | 🟠 Upcoming | Integration & end-to-end tests |
+| **Release** | 🟠 Upcoming | Documentation, v0.1.0 tag |
+| **Buffer** | 🟠 Reserve | Contingency included in the forecast |
 
 **Status Legend**: 🟢 Complete | 🟡 In Progress | 🟠 Upcoming | 🔴 On Hold
 
@@ -168,15 +170,16 @@ This project is licensed under the **Apache License 2.0** - see the [LICENSE](./
 
 ---
 
-## 🎯 Success Metrics
+## 🎯 Success Targets
 
-- ✅ Agent runs 99% uptime
-- ✅ Dashboard response <500ms
-- ✅ 100% of changes audited
-- ✅ Zero data loss on restart
-- ✅ Complete documentation
+Targets for v0.1 (not yet measured):
+- Agent runs 7 days unattended without a crash
+- Dashboard response <500ms
+- 100% of changes audited
+- Zero data loss on restart
+- Complete documentation
 
 ---
 
 **Last Updated**: November 15, 2026  
-**Next Milestone**: Planning Baseline Set (Nov 22, 2026)
+**Next Milestone**: Planning baseline (see the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md))

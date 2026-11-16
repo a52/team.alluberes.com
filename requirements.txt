@@ -2,7 +2,8 @@
 # Python 3.11+
 # Development tools live in requirements-dev.txt (pip install -r requirements-dev.txt)
 
-# Azure DevOps SDK - only beta releases exist on PyPI (no stable 7.1.0)
+# Azure DevOps SDK - only beta releases exist on PyPI (no stable 7.1.0).
+# The design API spike decides between this SDK and plain REST calls via requests.
 azure-devops==7.1.0b4
 
 # In-process scheduler (stay on 3.x; 4.x is a breaking rewrite)
@@ -10,7 +11,6 @@ APScheduler==3.11.3
 
 # Dashboard
 Flask==3.1.3
-Flask-Cors==6.0.5
 
 # Configuration from .env
 python-dotenv==1.2.4
@@ -23,7 +23,3 @@ jsonschema==4.26.0
 
 # Structured JSON logging
 python-json-logger==4.2.0
-
-# Utilities
-python-dateutil==2.9.0.post0
-pytz==2026.6

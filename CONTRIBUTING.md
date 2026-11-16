@@ -51,15 +51,15 @@ Thank you for contributing to this project! This guide explains how to set up yo
 ### Python Style Guide
 - Follow **PEP 8** standards
 - Use **black** for code formatting
-- Use **pylint** for linting
+- Use **ruff** for linting and import order
 
 ### Formatting
 ```bash
 # Format code with black
 black src/
 
-# Check style with pylint
-pylint src/
+# Lint with ruff
+ruff check src/ tests/
 ```
 
 ### Naming Conventions
@@ -75,7 +75,7 @@ def fetch_work_items(project_id: str, filters: dict) -> List[WorkItem]:
     
     Args:
         project_id: Azure DevOps project identifier
-        filters: Dictionary of filter criteria (e.g., {'status': 'Active'})
+        filters: Dictionary of filter criteria (e.g., {'exclude_states': ['Closed']})
     
     Returns:
         List of WorkItem objects matching the filters
@@ -121,25 +121,36 @@ pytest tests/unit/test_azure_client.py::test_connection -v
 ### Writing Tests
 
 ```python
-# tests/unit/test_example.py
+# tests/unit/test_azure_client.py  (illustrative: unit tests never touch the network)
+from unittest.mock import Mock
+
 import pytest
+
 from src.agent.azure_client import AzureClient
+
 
 class TestAzureClient:
     @pytest.fixture
-    def client(self):
-        """Create a test client."""
-        return AzureClient(org_url="https://dev.azure.com/test", pat="test_token")
-    
-    def test_connection_success(self, client):
-        """Test successful connection to Azure DevOps."""
-        result = client.ping()
-        assert result is True
-    
-    def test_invalid_credentials(self):
-        """Test connection with invalid credentials."""
+    def http(self):
+        """Fake HTTP session injected into the client."""
+        return Mock()
+
+    @pytest.fixture
+    def client(self, http):
+        """Client under test, wired to the fake session."""
+        return AzureClient(
+            org_url="https://dev.azure.com/test", pat="test_token", session=http
+        )
+
+    def test_connection_success(self, client, http):
+        """ping() returns True when the API answers 200."""
+        http.get.return_value = Mock(status_code=200)
+        assert client.ping() is True
+
+    def test_invalid_credentials(self, client, http):
+        """ping() raises when the API rejects the PAT."""
+        http.get.return_value = Mock(status_code=401)
         with pytest.raises(ConnectionError):
-            client = AzureClient(org_url="https://dev.azure.com/test", pat="invalid")
             client.ping()
 ```
 
@@ -191,7 +202,7 @@ performance when processing >1000 items.
 
 2. **Make changes** and commit regularly
    ```bash
-   git add .
+   git add <files you changed>   # avoid `git add .` so secrets and stray files stay out
    git commit -m "feat(scope): description"
    ```
 
@@ -224,7 +235,7 @@ Before submitting a PR, ensure:
 - [ ] All tests pass (`pytest`)
 - [ ] Code coverage >80% (`pytest --cov`)
 - [ ] Code is formatted with `black`
-- [ ] No linting errors (`pylint`)
+- [ ] No linting errors (`ruff check`)
 - [ ] Docstrings added/updated
 - [ ] Documentation updated if needed
 - [ ] Commit messages follow convention
@@ -237,10 +248,11 @@ Before submitting a PR, ensure:
 ## 📚 Documentation
 
 ### When to Update Docs
-- Adding a new feature → Update API.md or feature guide
-- Changing configuration → Update SETUP.md
-- Architecture change → Update ARCHITECTURE.md
-- Bug fix with workaround → Update TROUBLESHOOTING.md
+Design and operations documents are created during the project (see the schedule); update them once they exist:
+- Adding a new feature → `docs/3 - Design/REQUIREMENTS.md` and the dashboard API reference
+- Changing configuration → `.env.example` and the setup guide
+- Architecture change → `docs/3 - Design/ARCHITECTURE.md`
+- Bug fix with workaround → the operations manual
 
 ### Documentation Standards
 - Clear, concise language
@@ -305,12 +317,12 @@ pytest
 black src/
 
 # 5. Check linting
-pylint src/
+ruff check src/ tests/
 
 # 6. Start agent locally
 python -m src.agent.main
 
-# 7. Access dashboard at http://localhost:5000
+# 7. Access dashboard at http://localhost:8080
 ```
 
 ---
@@ -324,19 +336,19 @@ docker build -f build/docker/Dockerfile -t content-polisher:latest .
 # Run container
 docker run -e AZURE_DEVOPS_ORG=your_org \
            -e AZURE_DEVOPS_PAT=your_pat \
-           -p 5000:5000 \
+           -p 127.0.0.1:8080:8080 \
            content-polisher:latest
 
-# Or use docker-compose
-docker-compose up
+# Or use Docker Compose
+docker compose up
 ```
 
 ---
 
 ## 📞 Need Help?
 
-- **Questions?** Ask in team chat or open a discussion
-- **Stuck?** Check TROUBLESHOOTING.md or existing issues
+- **Questions?** Open an issue
+- **Stuck?** Check existing issues
 - **Documentation unclear?** Let us know!
 
 ---
@@ -345,6 +357,6 @@ docker-compose up
 
 Your contributions make this project better. We appreciate your effort and time!
 
-**Release Cadence**: v0.1.0 planned for February 28, 2027
+**Release Plan**: see the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md)
 
 Happy coding! 🎉

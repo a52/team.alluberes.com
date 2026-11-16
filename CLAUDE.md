@@ -15,10 +15,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Deferred to v0.2: grammar/spelling fixes, automatic linking, Slack alerts.
 
-**Status**: Planning Phase (Initiation complete Nov 15, 2026; planning baseline Nov 22, 2026)  
-**Team**: Solo project (Abnel Lluberes, all roles), ~10 hours/week  
-**Planned v0.1.0 Release**: February 28, 2027  
-**Target Completion (incl. buffer)**: March 21, 2027  
+**Status**: Planning Phase (charter approved Nov 15, 2026)  
+**Team**: Solo project (Abnel Lluberes, all roles), part-time; no fixed deadline (alluberes.com is the owner's main project)  
+**Dates & Effort**: Only in `docs/2 - Planning/PROJECT_SCHEDULE.md` - link to it, never copy dates or hours into other documents  
 **Tech Stack**: Python 3.11, Flask, APScheduler, azure-devops SDK, Docker
 
 ---
@@ -57,15 +56,18 @@ Every 5 minutes:
     ↓
   Connect to Azure DevOps via PAT
     ↓
-  Fetch work items matching filters
+  Fetch work items changed since the last run, matching filters, past the quiet period
     ↓
-  Process each item through polishing rules
+  Skip items whose latest revision the agent wrote (STATE_DIR)
     ↓
-  Log all changes to audit_logs/ (JSON)
+  Evaluate polishing rules → suggestions
+    ↓
+  Log to audit_logs/ (JSON), then post one comment per new suggestion
+  and apply only rules enabled for apply mode (off by default)
     ↓
   Dashboard reads latest results
     ↓
-  Display at http://localhost:5000
+  Display at http://localhost:8080
 ```
 
 ### Key Architectural Decisions
@@ -74,7 +76,8 @@ Every 5 minutes:
 - **Configuration**: Environment variables only (secure, Docker-friendly)
 - **Logging**: File-based JSON logs (no database)
 - **Dashboard**: Flask + vanilla HTML/CSS (lightweight, no build step)
-- **Containerization**: Single Dockerfile, docker-compose for local dev
+- **Containerization**: Single Dockerfile, Docker Compose for local dev
+- **Local State**: `STATE_DIR` holds the last-run watermark, revisions written by the agent, and posted suggestion hashes (mounted as a volume)
 - **Audit Trail**: Before/after JSON snapshots for every change
 
 ---
@@ -132,7 +135,7 @@ python -m src.agent.main
 python -m src.dashboard.app
 
 # Run with Docker Compose (recommended for full testing)
-docker-compose up --build
+docker compose up --build
 ```
 
 ### Testing
@@ -164,8 +167,8 @@ ptw
 # Format code with black (modifies files in-place)
 black src/ tests/
 
-# Check PEP 8 compliance with pylint
-pylint src/
+# Lint and check import order with ruff
+ruff check src/ tests/
 
 # Check for security issues
 bandit -r src/
@@ -174,7 +177,7 @@ bandit -r src/
 mypy src/
 
 # All-in-one: format, lint, type check
-black src/ && pylint src/ && mypy src/ && pytest --cov=src
+black src/ tests/ && ruff check src/ tests/ && mypy src/ && pytest --cov=src
 ```
 
 ### Building & Deployment
@@ -186,13 +189,13 @@ docker build -f build/docker/Dockerfile -t content-polisher:latest .
 # Run Docker image locally
 docker run -e AZURE_DEVOPS_ORG=https://dev.azure.com/myorg \
            -e AZURE_DEVOPS_PAT=mytoken \
-           -p 5000:5000 \
+           -p 127.0.0.1:8080:8080 \
            content-polisher:latest
 
-# Use docker-compose (simpler)
-docker-compose up              # Run locally
-docker-compose down            # Stop containers
-docker-compose logs -f agent   # View logs
+# Use Docker Compose (simpler)
+docker compose up              # Run locally
+docker compose down            # Stop containers
+docker compose logs -f agent   # View logs
 ```
 
 ---
@@ -201,7 +204,7 @@ docker-compose logs -f agent   # View logs
 
 ### Python Standards
 
-- **Style Guide**: PEP 8 (enforced by black)
+- **Style Guide**: PEP 8 (formatted by black, linted by ruff)
 - **Naming**: `snake_case` for functions/vars, `PascalCase` for classes, `UPPER_CASE` for constants
 - **Docstrings**: Google-style format with Args, Returns, Raises sections
 - **Type Hints**: Required on all public functions
@@ -218,7 +221,7 @@ def process_work_items(org_id: str, filters: dict) -> List[AuditEntry]:
     
     Args:
         org_id: Azure DevOps organization identifier
-        filters: Dict with keys: status, work_item_types, area_path
+        filters: Dict with keys: exclude_states, work_item_types, area_path
     
     Returns:
         List of AuditEntry objects documenting all changes
@@ -242,28 +245,41 @@ def process_work_items(org_id: str, filters: dict) -> List[AuditEntry]:
 ### Minimum Coverage: 80%
 
 - Unit tests in `tests/unit/` (fast, mocked dependencies)
-- Integration tests in `tests/integration/` (slower, use real Azure SDK)
+- Integration tests in `tests/integration/` (slower, run against a test Azure DevOps project)
 - Test files mirror source structure: `src/agent/foo.py` → `tests/unit/test_foo.py`
 
 ### Test Structure
 
 ```python
+# tests/unit/test_azure_client.py  (illustrative: unit tests never touch the network)
+from unittest.mock import Mock
+
 import pytest
-from unittest.mock import Mock, patch
+
 from src.agent.azure_client import AzureClient
+
 
 class TestAzureClient:
     @pytest.fixture
-    def client(self):
-        """Set up test fixture."""
-        return AzureClient(org="https://dev.azure.com/test", pat="test_token")
-    
-    def test_connection_success(self, client):
-        """Test successful connection."""
+    def http(self):
+        """Fake HTTP session injected into the client."""
+        return Mock()
+
+    @pytest.fixture
+    def client(self, http):
+        """Client under test, wired to the fake session."""
+        return AzureClient(
+            org_url="https://dev.azure.com/test", pat="test_token", session=http
+        )
+
+    def test_connection_success(self, client, http):
+        """ping() returns True when the API answers 200."""
+        http.get.return_value = Mock(status_code=200)
         assert client.ping() is True
-    
-    def test_connection_failure_retries(self, client):
-        """Test retry logic on connection failure."""
+
+    def test_invalid_credentials(self, client, http):
+        """ping() raises when the API rejects the PAT."""
+        http.get.return_value = Mock(status_code=401)
         with pytest.raises(ConnectionError):
             client.ping()
 ```
@@ -274,8 +290,8 @@ Run this to verify all quality gates pass:
 
 ```bash
 pytest --cov=src --cov-fail-under=80 && \
-black src/ --check && \
-pylint src/ && \
+black src/ tests/ --check && \
+ruff check src/ tests/ && \
 mypy src/
 ```
 
@@ -330,9 +346,9 @@ Fixes #123
 
 ### Configuration Files
 
-- **.env.example** - Environment template (31 documented variables)
-- **requirements.txt** - Production dependencies (10 packages)
-- **requirements-dev.txt** - Development dependencies (24 packages)
+- **.env.example** - Environment template (27 documented variables)
+- **requirements.txt** - Production dependencies (7 packages)
+- **requirements-dev.txt** - Development dependencies (15 packages)
 - **.gitignore** - Python, Docker, IDE ignores
 
 ### Source Structure
@@ -357,21 +373,17 @@ build/
 
 ## 🎯 Upcoming Milestones
 
-- **Nov 22, 2026**: Planning baseline set
-- **Nov 29, 2026**: REQUIREMENTS.md complete
-- **Dec 6, 2026**: Design complete (ARCHITECTURE.md, API spike)
-- **Jan 31, 2027**: Feature complete (Docker image ready)
-- **Feb 14, 2027**: Testing complete
-- **Feb 28, 2027**: v0.1.0 release
-- **Mar 21, 2027**: Target completion (buffer exhausted)
+Milestone order: planning baseline → REQUIREMENTS.md → design complete (ARCHITECTURE.md, API spike) → feature complete → testing complete → v0.1.0 release. Dates are forecasts, not commitments.
 
-Current status: Planning phase; design runs in parallel from Nov 16
+For dates see `docs/2 - Planning/PROJECT_SCHEDULE.md`; for weekly progress see `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md`.
+
+Current status: Planning phase; design runs in parallel
 
 ---
 
 ## 🚀 Quick Start for Implementation Phase
 
-When implementation begins (Nov 30):
+When implementation begins:
 
 1. **Create project structure**
    ```bash
@@ -395,7 +407,7 @@ When implementation begins (Nov 30):
    - Vanilla HTML/CSS for UI
 
 6. **Finally integration & Docker**
-   - docker-compose.yml for local dev
+   - docker-compose.yml for local dev (run with `docker compose`)
    - Dockerfile for containerization
 
 ---
@@ -407,7 +419,7 @@ When implementation begins (Nov 30):
 - **No print() statements**: Use logging module instead
 - **Performance targets**: Dashboard <500ms, processing cycle <5 min
 - **Audit logging**: Every change must be logged before/after, and the audit entry is written before the change is applied
-- **Safe writes**: `DRY_RUN=true` by default; every update includes a JSON Patch `test` op on `/rev`; skip items whose latest revision was written by the agent (tracked in `STATE_DIR`); never auto-fill estimates or acceptance criteria; change tags only via `TAG_ALIASES`; keep description fields as HTML
+- **Safe writes**: `DRY_RUN=true` by default (no field is changed; the only write is one optional suggestion comment per item, carrying a hidden agent marker); apply is opt-in per rule (`APPLY_FORMATTING`, `APPLY_TAG_ALIASES`); skip items changed within `QUIET_PERIOD_MINUTES`; every update includes a JSON Patch `test` op on `/rev`; skip items whose latest revision was written by the agent (tracked in `STATE_DIR`); never auto-fill estimates or acceptance criteria; change tags only via `TAG_ALIASES`; keep description fields as HTML
 - **Error handling**: Implement exponential backoff for Azure API calls
 
 ---
@@ -423,5 +435,5 @@ When implementation begins (Nov 30):
 ---
 
 **Last Updated**: November 15, 2026  
-**Project Phase**: Planning (baseline Nov 22, 2026)  
+**Project Phase**: Planning  
 **Lead**: Abnel Lluberes (Project Manager & Owner)
