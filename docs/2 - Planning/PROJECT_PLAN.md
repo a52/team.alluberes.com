@@ -179,7 +179,7 @@ Due dates are in [PROJECT_SCHEDULE.md](./PROJECT_SCHEDULE.md).
 As a solo project, communication is limited to self-tracking:
 
 - **Weekly status check** (Sunday): hours spent vs. plan, completed tasks, blockers, next week's tasks
-- **Milestone notes**: short entry in `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` at each milestone
+- **Milestone notes**: short entry in `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (local only, not in git) at each milestone
 - **Users of the processed Azure DevOps project**: informed before the first run in apply mode
 
 ---

@@ -87,3 +87,7 @@ dist/
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Private, local only (personal records; not published)
+docs/5 - Monitoring & Controlling/STATUS_REPORTS.md
+docs/archive/

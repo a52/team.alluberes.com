@@ -72,7 +72,6 @@ project-root/
 - **[Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md)** - Timeline, milestones, Gantt data
 - **[Risk Register](./docs/2%20-%20Planning/RISK_REGISTER.md)** - Risk identification & mitigation strategies
 - **[Project Plan](./docs/2%20-%20Planning/PROJECT_PLAN.md)** - Consolidated planning document
-- **[Archive](./docs/archive/README.md)** - Superseded documents (illustrative business case), not maintained
 
 ### Technical Documentation (In Progress)
 Due dates are in the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md).
@@ -117,7 +116,7 @@ The agent will:
 
 ## 🏛️ Project Phases
 
-Solo, part-time project with no fixed deadline. Forecast dates and effort are kept only in the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md); weekly progress is in the [Status Reports](./docs/5%20-%20Monitoring%20%26%20Controlling/STATUS_REPORTS.md).
+Solo, part-time project with no fixed deadline. Forecast dates and effort are kept only in the [Project Schedule](./docs/2%20-%20Planning/PROJECT_SCHEDULE.md); weekly progress is tracked in a local status report that is not published.
 
 | Phase | Status | Deliverables |
 |-------|--------|--------------|
