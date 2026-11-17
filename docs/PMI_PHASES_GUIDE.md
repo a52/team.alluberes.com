@@ -105,7 +105,7 @@ docs/
     │   • Quality metrics
     │   • Schedule & budget status
     │
-    ├── STATUS_REPORTS.md              
+    ├── STATUS_REPORTS.md              (local only, not in git)
     │   • Weekly/monthly updates
     │   • Risk status
     │   • Change tracking
@@ -211,7 +211,7 @@ docs/
 
 **Documents to create in `5 - Monitoring & Controlling/`:**
 - PERFORMANCE_METRICS.md (KPIs & health checks)
-- STATUS_REPORTS.md (Weekly/monthly updates)
+- STATUS_REPORTS.md (Weekly/monthly updates; local only, not in git)
 - LESSONS_LEARNED.md (Post-project review)
 
 **Key Activities**:
@@ -255,7 +255,7 @@ docs/
 → See `docs/4 - Implementation/DEPLOYMENT_GUIDE.md` and `OPERATIONS_MANUAL.md` (planned)
 
 **Check project status**
-→ See `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (updated weekly)
+→ See `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (updated weekly; local only, not in git)
 
 ---
 
@@ -342,7 +342,7 @@ PROJECT CLOSURE ✅
 
 ### Monitoring & Controlling (Pending 📝)
 - [ ] PERFORMANCE_METRICS.md - KPIs
-- [x] STATUS_REPORTS.md - Weekly updates (started)
+- [x] STATUS_REPORTS.md - Weekly updates (started; local only, not in git)
 - [ ] LESSONS_LEARNED.md - Post-project review
 
 ---

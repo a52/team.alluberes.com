@@ -128,7 +128,7 @@ As a solo project, every task is effectively on the critical path; overlapping d
 ---
 
 ## 6. Schedule Tracking
-- **Status check**: Weekly (Sunday), hours spent vs. planned, recorded in `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md`
+- **Status check**: Weekly (Sunday), hours spent vs. planned, recorded in `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (local only, not in git)
 - **Variance Threshold**: ±5 hours cumulative
 - **Forecast Update**: when actual hours differ from plan by more than 10, move the forecast dates in this document
 

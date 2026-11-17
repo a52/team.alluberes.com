@@ -376,7 +376,7 @@ build/
 
 Milestone order: planning baseline → REQUIREMENTS.md → design complete (ARCHITECTURE.md, API spike) → feature complete → testing complete → v0.1.0 release. Dates are forecasts, not commitments.
 
-For dates see `docs/2 - Planning/PROJECT_SCHEDULE.md`; for weekly progress see `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md`.
+For dates see `docs/2 - Planning/PROJECT_SCHEDULE.md`; for weekly progress see `docs/5 - Monitoring & Controlling/STATUS_REPORTS.md` (local only, not in git).
 
 Current status: Planning phase; design runs in parallel
 
